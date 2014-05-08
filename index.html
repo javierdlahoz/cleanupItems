@@ -1,0 +1,27 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <title>CleanUp Items</title>
+  </head>
+  <body ng-controller="IndexController">
+  <div class="container">
+    <h2>CleanUp Items from Magento</h2>
+    <div ng-view="" ng-show="isLoggedIn"></div>
+    <div ng-hide="isLoggedIn">
+      <div class="alert alert-danger">I'm sorry, but you must be logged in to access this page :(</div>
+    </div>
+  </div>
+  <script src="angular/angular.min.js"></script>
+  <script src="angular/angular-resource.min.js"></script>
+  <script src="angular/angular-route.min.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="controller/app.js"></script>
+  <script src="controller/index.js"></script>
+  <script src="controller/main.js"></script>
+  <script src="controller/list.js"></script>
+  <script src="controller/actions.js"></script>
+  <script src="helpers/main.js"></script>
+  </body>
+</html>

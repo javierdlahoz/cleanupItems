@@ -1,0 +1,61 @@
+<h3>List of filtered products</h3>
+<a href="#">Go back</a>
+<div ng-hide="status">
+  <div class="alert alert-warning">
+    Please wait... you know, sometimes Magento takes a long time...
+  </div>
+  <center><img src="waiting.gif"></center>
+</div>
+<div ng-show="visible">
+<form role="form" ng-submit="actions(form)" name="form">
+  <div class="row" ng-show="status">
+    <div class="col-md-1">
+      Add to:
+    </div>
+    <div class="col-md-6">
+      <div class="alert alert-warning" ng-hide="catStatus">We're loading the categories, so please wait...</div>
+      <select ng-model="category" class="form-control" ng-show="catStatus">
+        <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}}</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-default" ng-model="moveTo"     ng-click="moveToCategory()">Add</button>
+      <button type="submit" class="btn btn-success" ng-model="isEnable"   ng-click="setIsEnable()">Enable</button>
+      <button type="submit" class="btn btn-warning" ng-model="isDisable"  ng-click="setIsDisable()">Disable</button>
+      <button type="submit" class="btn btn-danger"  ng-model="isDelete"   ng-click="setIsDelete()">Delete</button>
+    </div>
+  </div>
+  <ul class="pagination" ng-show="pageStatus">
+  <li><a style="cursor:pointer" ng-click="lastPage()">&laquo;</a></li>
+  <li ng-repeat="page in pages" id="page{{$index}}" ng-class="{active: $index == 0}"><a style="cursor:pointer" ng-click="changePage($index)">{{$index+1}}</a></li>
+  <li><a style="cursor:pointer" ng-click="nextPage()">&raquo;</a></li>
+</ul>
+  <div ng-show="status">Total products: {{count}}</div>
+  <div class="row" ng-show="status">
+      <div class="col-md-6">
+          <a href="" ng-click="selectAll()">Select all</a>
+          |
+          <a href="" ng-click="selectNone()">Select none</a>
+      </div>
+  </div>
+  <table class="table table-striped table-condensed table-hover" ng-show="status" ng-table="table" show-filter="true">
+    <tr>
+      <th></th>
+      <th>id <a style="cursor: pointer" ng-click="sortBy('id')">&#9660;</a></th>
+      <th>Name <a style="cursor: pointer" ng-click="sortBy('name')">&#9660;</a></th>
+      <th>Sku <a style="cursor: pointer" ng-click="sortBy('sku')">&#9660;</a></th>
+      <th>Enabled <a style="cursor: pointer" ng-click="sortBy('status')">&#9660;</a></th>
+    </tr>
+    <tr ng-repeat="product in pages[currentPage] | orderBy:sorting">
+      <td><input type="checkbox" ng-model="product.idSelected"></td>
+      <td>{{product.id}}</td>
+      <td><a href="{{product.url}}" target="_new">{{product.name}}</a></td>
+      <td>{{product.sku}}</td>
+      <td>{{product.status}}</td>
+    </tr>
+  </table>
+</div>
+</form>
+<div class="alert alert-warning" ng-hide="visible">
+  Your search does not match any items
+</div>

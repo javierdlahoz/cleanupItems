@@ -1,0 +1,43 @@
+<h3>Actions</h3>
+<a href="#">Go back</a>
+<hr>
+<div ng-hide="finish">
+  Executing {{itemCount}} of {{count}}
+  <div class="progress progress-striped active">
+    <div class="progress-bar" role="progressbar"
+         aria-valuenow="{{itemCount}}" aria-valuemin="0" aria-valuemax="{{count}}"
+         style="width: {{100*itemCount/count}}%">
+      <span class="sr-only">{{100*itemCount/count}}% completed</span>
+    </div>
+  </div>
+</div>
+<div class="alert alert-success" ng-show="finish && finishReindex">
+  Done!
+</div>
+<div ng-show="finish">
+  <h4>Indexes</h4>
+  <div class="row">
+    <div class="col-md-6">
+      <button class="btn btn-primary" ng-click="reindexAll()">Reindex All</button>
+      <button class="btn btn-primary" ng-click="indexAuto()">Update on Save</button>
+      <button class="btn btn-primary" ng-click="indexAuto()">Manual Update</button>
+    </div>
+  </div>
+  <br ng-hide="finishReindex">
+  <div class="alert alert-warning" ng-hide="finishReindex">Please wait... Magento's working</div>
+  <center><img src="waiting3.gif" ng-show="reindexWait"></center>
+  <hr>
+</div>
+<h3>{{formAction}}</h3>
+<table class="table table-striped table table-striped table-condensed table-hover">
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Sku</th>
+  </tr>
+  <tr ng-repeat="product in products">
+    <td>{{product.id}}</td>
+    <td>{{product.name}}</td>
+    <td>{{product.sku}}</td>
+  </tr>
+</table>

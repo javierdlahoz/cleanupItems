@@ -1,0 +1,111 @@
+<h3>Please choose your filter options</h3>
+<hr>
+  <form role="form" ng-submit="search(form)" name="form">
+  <h4>Dates</h4>
+  <div class="row">
+    <div class="col-md-6">
+        <label for="filter">Filter by: </label>
+        <select ng-model="filter" class="form-control" required name="select">
+          <option value="updated">Updated at</option>
+          <option value="created">Created at</option>
+        </select>
+     </div>
+   </div>
+   <div class="row">
+        <div class="col-md-6">
+            <label for="from">From: </label>
+            <p class="input-group">
+                <input type="text" name="from" class="form-control" datepicker-popup="{{format}}" is-open="opened1" min-date="'2000-01-01'" max-date="todayday" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-model="from"/>
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event, 'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+        </div>
+        <div class="col-md-6">
+            <label for="to">To: </label>
+            <p class="input-group">
+                <input type="text" name="to" class="form-control" datepicker-popup="{{format}}" is-open="opened2" min-date="'2000-01-01'" max-date="todayday" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-model="to" ng-click="open($event, 'opened2')"/>
+                <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event, 'opened2')"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+        </div>
+    </div>
+  <hr>
+  <h4>Price</h4>
+  <div class="row">
+        <div class="col-md-6">
+            <label for="priceFrom">From: </label>
+            <input type="number" ng-model="priceFrom" class="form-control" placeholder="0">
+        </div>
+        <div class="col-md-6">
+            <label for="priceTo">To: </label>
+            <input type="number" ng-model="priceTo" class="form-control" placeholder="0">
+        </div>
+    </div>
+  <hr>
+    <div class="row">
+    <div class="col-md-6">
+      <label for="category">Type: </label>
+      <select ng-model="type_id" class="form-control">
+      	<option value="simple">simple</option>
+      	<option value="configurable">configurable</option>
+      	<option value="bundle">bundle</option>
+      	<option value="grouped">grouped</option>
+      	<option value="virtual">virtual</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row" ng-show="catStatus">
+    <div class="col-md-6">
+      <label for="category">Category: </label>
+      <select ng-model="category" class="form-control">
+        <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}}</option>
+      </select>
+    </div>
+  </div>
+  <br ng-hide="catStatus">
+  <div class="alert alert-warning" ng-hide="catStatus">
+  	We're loading the categories, so please wait...
+  </div>
+
+  <hr>
+  <h4>Special options</h4>
+  <div class="row">
+        <div class="col-md-6">
+          <div class="checkbox">
+          <label>
+            <input type="checkbox" value="true" ng-model="noStock">
+            Products with no stocks
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" value="true" ng-model="noPicture">
+              Products with no pictures
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" value="true" ng-model="enabledProducts">
+              Enabled products
+            </label>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" value="true" ng-model="disabledProducts">
+              Disabled products
+            </label>
+          </div>
+        </div>
+      </div>
+    <hr>
+   <button type="submit" class="btn btn-primary">Submit</button>
+</form>
