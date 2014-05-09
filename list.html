@@ -5,7 +5,7 @@
     Please wait... you know, sometimes Magento takes a long time...
   </div>
   <center>
-<iframe src="//static1.scirra.net/arcade/games/1259/play" width="480" height="480" style="width:480px;height:480px;border:0;margin:0;padding:0;" frameborder="0" id="ScirraGame1259" title="Make HTML5 games with Construct 2"></iframe>
+      <img style="width: 100%;" src="waiting.gif" alt=""/>
 </center>
 </div>
 <div ng-show="visible">
@@ -31,6 +31,11 @@
 
   <pagination ng-show="pageStatus" total-items="count" ng-model="currentPage" max-size="20" items-per-page="50" class="pagination-sm" boundary-links="true" rotate="false"></pagination>
 
+    <div ng-show="pageStatus" class="form-group">
+        <label>Search</label>
+        <input type="text" class="form-control" ng-model="search" placeholder="Enter anything to filter">
+    </div>
+
   <div ng-show="status">Total products: {{count}}</div>
   <div class="row" ng-show="status">
       <div class="col-md-6">
@@ -47,7 +52,7 @@
       <th>Sku <a style="cursor: pointer" ng-click="sortBy('sku')">&#9660;</a></th>
       <th>Enabled <a style="cursor: pointer" ng-click="sortBy('status')">&#9660;</a></th>
     </tr>
-    <tr ng-repeat="product in pages[currentPage - 1] | orderBy:sorting">
+    <tr ng-repeat="product in pages[currentPage - 1] | orderBy:sorting | filter:search">
       <td><input type="checkbox" ng-model="product.idSelected"></td>
       <td>{{product.id}}</td>
       <td><a href="{{product.url}}" target="_new">{{product.name}}</a></td>
