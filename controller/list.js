@@ -6,13 +6,13 @@ angular.module('myApp')
   	$scope.sorting = 'id';
   	$scope.visible = true;
   	$scope.pageLength = 50;
-  	$scope.currentPage = 0;
+  	$scope.currentPage = 1;
   	$scope.pageStatus = false;
   	$scope.catStatus = true;
 
   	if($rootScope.categories == null)
   	{	$scope.catStatus = false;
-  		$http.get("backend/categories.php").success(function(data) {
+  		$http.get("http://10.0.15.12/otteny.com/cleanup/backend/categories.php").success(function(data) {
 			    $scope.categories = data;
 			    $rootScope.categories = $scope.categories;
 			    $scope.catStatus = true;
@@ -22,7 +22,7 @@ angular.module('myApp')
   	}
   	$scope.categories = $rootScope.categories;
 
-  	$http.post("backend/productFilter.php", $rootScope.Params).success(function(data) {
+  	$http.post("http://10.0.15.12/otteny.com/cleanup/backend/productFilter.php", $rootScope.Params).success(function(data) {
 			    $scope.table = data;
 			    $scope.status = true;
 			    $scope.count = data.length;

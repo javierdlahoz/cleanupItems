@@ -4,7 +4,7 @@ angular.module('myApp')
   .controller('MainController', function ($scope, $http , $rootScope, $location) {
   	$scope.catStatus = false;
   	if($rootScope.categories == null){
-	  	$http.get("backend/categories.php").success(function(data) {
+	  	$http.get("http://10.0.15.12/otteny.com/cleanup/backend/categories.php").success(function(data) {
 				    $scope.categories = data;
 				    $rootScope.categories = $scope.categories;
 				    $scope.catStatus = true;

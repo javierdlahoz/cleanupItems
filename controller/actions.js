@@ -10,7 +10,7 @@ angular.module('myApp')
     $scope.reindexWait = false;
 
     var action = {action: "--mode-manual"};
-    $http.post("backend/indexes.php", action).success(function(data) {
+    $http.post("http://10.0.15.12/otteny.com/cleanup/backend/indexes.php", action).success(function(data) {
          }).error(function(data) {
             console.log("Web service error");
     });
@@ -48,7 +48,7 @@ angular.module('myApp')
         index: index
       };
       
-      $http.post("backend/actions.php", formData).success(function(data) {
+      $http.post("http://10.0.15.12/otteny.com/cleanup/backend/actions.php", formData).success(function(data) {
             $scope.products[$scope.itemCount] = data;
             $scope.itemCount++;
             if($scope.itemCount==$scope.count)
@@ -81,7 +81,7 @@ angular.module('myApp')
         action = {action: "--reindexall"};
         $scope.finishReindex = false;
         $scope.reindexWait = true;
-        $http.post("backend/indexes.php", action).success(function(data) {
+        $http.post("http://10.0.15.12/otteny.com/cleanup/backend/indexes.php", action).success(function(data) {
             if(data.status)
               {
                 $scope.finishReindex = true;
@@ -95,7 +95,7 @@ angular.module('myApp')
     $scope.indexAuto = function(){
         action = {action: "--mode-realtime"};
         $scope.finishReindex = false;
-        $http.post("backend/indexes.php", action).success(function(data) {
+        $http.post("http://10.0.15.12/otteny.com/cleanup/backend/indexes.php", action).success(function(data) {
             if(data.status)
                 $scope.finishReindex = true;
          }).error(function(data) {
@@ -105,7 +105,7 @@ angular.module('myApp')
 
     $scope.indexManual = function(){
       action = {action: "--mode-manual"};
-      $http.post("backend/indexes.php", action).success(function(data) {
+      $http.post("http://10.0.15.12/otteny.com/cleanup/backend/indexes.php", action).success(function(data) {
           if(data.status)
               $scope.finishReindex = true;
            }).error(function(data) {

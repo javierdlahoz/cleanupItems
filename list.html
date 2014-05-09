@@ -27,11 +27,10 @@
       <button type="submit" class="btn btn-danger"  ng-model="isDelete"   ng-click="setIsDelete()">Delete</button>
     </div>
   </div>
-  <ul class="pagination" ng-show="pageStatus">
-  <li><a style="cursor:pointer" ng-click="lastPage()">&laquo;</a></li>
-  <li ng-repeat="page in pages" id="page{{$index}}" ng-class="{active: $index == 0}"><a style="cursor:pointer" ng-click="changePage($index)">{{$index+1}}</a></li>
-  <li><a style="cursor:pointer" ng-click="nextPage()">&raquo;</a></li>
-</ul>
+
+
+  <pagination ng-show="pageStatus" total-items="count" ng-model="currentPage" max-size="20" items-per-page="50" class="pagination-sm" boundary-links="true" rotate="false"></pagination>
+
   <div ng-show="status">Total products: {{count}}</div>
   <div class="row" ng-show="status">
       <div class="col-md-6">
@@ -48,7 +47,7 @@
       <th>Sku <a style="cursor: pointer" ng-click="sortBy('sku')">&#9660;</a></th>
       <th>Enabled <a style="cursor: pointer" ng-click="sortBy('status')">&#9660;</a></th>
     </tr>
-    <tr ng-repeat="product in pages[currentPage] | orderBy:sorting">
+    <tr ng-repeat="product in pages[currentPage - 1] | orderBy:sorting">
       <td><input type="checkbox" ng-model="product.idSelected"></td>
       <td>{{product.id}}</td>
       <td><a href="{{product.url}}" target="_new">{{product.name}}</a></td>
