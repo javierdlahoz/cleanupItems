@@ -31,7 +31,7 @@
 
   <pagination ng-show="pageStatus" total-items="count" ng-model="currentPage" max-size="20" items-per-page="50" class="pagination-sm" boundary-links="true" rotate="false"></pagination>
 
-    <div ng-show="pageStatus" class="form-group">
+    <div ng-show="status" class="form-group">
         <label>Search</label>
         <input type="text" class="form-control" ng-model="search" placeholder="Enter anything to filter">
     </div>
