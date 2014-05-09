@@ -25,17 +25,24 @@
   </div>
   <br ng-hide="finishReindex">
   <div class="alert alert-warning" ng-hide="finishReindex">Please wait... Magento's working</div>
-  <center><img src="waiting3.gif" ng-show="reindexWait"></center>
+  <center><img src="waiting.gif" ng-show="reindexWait"></center>
   <hr>
 </div>
-<h3>{{formAction}}</h3>
+<div class="row">
+  <div class="col-md-6">
+    <h3>List of {{formAction}} limit to 50</h3>
+  </div>
+  <div class="col-md-6" style="text-align: right; vertical-align: bottom" ng-show="finish">
+    <a href="files/actionProducts.csv">CSV with all the {{formAction}}</a>
+  </div>
+</div>
 <table class="table table-striped table table-striped table-condensed table-hover">
   <tr>
     <th>Id</th>
     <th>Name</th>
     <th>Sku</th>
   </tr>
-  <tr ng-repeat="product in products">
+  <tr ng-repeat="product in products | limitTo:50">
     <td>{{product.id}}</td>
     <td>{{product.name}}</td>
     <td>{{product.sku}}</td>

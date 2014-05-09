@@ -4,7 +4,9 @@
   <div class="alert alert-warning">
     Please wait... you know, sometimes Magento takes a long time...
   </div>
-  <center><img src="waiting.gif"></center>
+  <center>
+<iframe src="//static1.scirra.net/arcade/games/1259/play" width="480" height="480" style="width:480px;height:480px;border:0;margin:0;padding:0;" frameborder="0" id="ScirraGame1259" title="Make HTML5 games with Construct 2"></iframe>
+</center>
 </div>
 <div ng-show="visible">
 <form role="form" ng-submit="actions(form)" name="form">
@@ -15,7 +17,7 @@
     <div class="col-md-6">
       <div class="alert alert-warning" ng-hide="catStatus">We're loading the categories, so please wait...</div>
       <select ng-model="category" class="form-control" ng-show="catStatus">
-        <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}}</option>
+        <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}} ({{category.id}})</option>
       </select>
     </div>
     <div class="col-md-4">

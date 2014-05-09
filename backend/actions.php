@@ -17,8 +17,9 @@
     $isDelete = $request->{'isDelete'};
     $category =  $request->{'category'};
     $moveTo = $request->{'moveTo'};
+    $index = $request->{'index'};
     $storeid=0;
-   
+
     if($isDisable=="true"){
         $product = Mage::getModel('catalog/product')->load($productId);
         $productArray = array(

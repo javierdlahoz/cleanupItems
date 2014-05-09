@@ -5,7 +5,7 @@ angular.module('myApp')
   	var j=0;
     var tmp = $rootScope.Params.products.length;
     var tProducts = new Array();
-    var isEnable, isDisable, isDelete, moveTo, category;
+    var isEnable, isDisable, isDelete, moveTo, category, index;
     $scope.finishReindex = true;
     $scope.reindexWait = false;
 
@@ -25,30 +25,40 @@ angular.module('myApp')
         category= $rootScope.Params.category;
         j++;
       }
-
     }
 
     $scope.count = j;
     $scope.itemCount = 0;
     $scope.finish = false;
     $scope.products = new Array();
+    index = true;
 
     for(var i=0; i<$scope.count; i++){
-      
+      if(i!=0){ 
+        index = false;
+      }
+
       var formData = {
         isEnable: isEnable,
         isDisable: isDisable,
         isDelete: isDelete,
         products: tProducts[i],
         moveTo: moveTo,
-        category: category
+        category: category,
+        index: index
       };
-
+      
       $http.post("backend/actions.php", formData).success(function(data) {
             $scope.products[$scope.itemCount] = data;
             $scope.itemCount++;
             if($scope.itemCount==$scope.count)
-                $scope.finish = true;
+                { var sendData = {products: $scope.products};
+                  $http.post("backend/products.php", sendData).success(function(data) {
+                    $scope.finish = true;
+                    }).error(function(data) {
+                        console.log("Web service error");
+                    });
+                 }
       	 }).error(function(data) {
       	  	console.log("Web service error");
       	 });

@@ -1,4 +1,4 @@
-$("input").attr("size", 40);
+//$("input").attr("size", 40);
 
 function showResults(container_id)
 {
@@ -77,7 +77,7 @@ function getPagination(table, pageLength){
 		}
 		if(j>lon)
 			break;		
-		k = end+1;
+		k = end;
 	}
 	return result;
 }
