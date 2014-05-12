@@ -29,9 +29,9 @@
               "name" => $product->getName(),
               "sku" => $product->getSku()
           );
+        echo json_encode($productArray);
         $product->setStatus(0);
         $product->save();
-        echo json_encode($productArray);
     }
 
     if($isEnable=="true"){
@@ -41,9 +41,9 @@
               "name" => $product->getName(),
               "sku" => $product->getSku()
           );
+        echo json_encode($productArray);
         $product->setStatus(1);
         $product->save();
-        echo json_encode($productArray);
     }
 
     if($isDelete=="true"){

@@ -1,9 +1,11 @@
 <h3>List of filtered products</h3>
 <a href="#">Go back</a>
+<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 <div ng-hide="status">
   <div class="alert alert-warning">
     Please wait... you know, sometimes Magento takes a long time...
   </div>
+
   <center>
       <img style="width: 100%;" src="waiting.gif" alt=""/>
 </center>
@@ -17,11 +19,16 @@
     <div class="col-md-6">
       <div class="alert alert-warning" ng-hide="catStatus">We're loading the categories, so please wait...</div>
       <select ng-model="category" class="form-control" ng-show="catStatus">
-        <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}} ({{category.id}})</option>
+        <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}} (id:{{category.id}})</option>
       </select>
     </div>
     <div class="col-md-4">
       <button type="submit" class="btn btn-default" ng-model="moveTo"     ng-click="moveToCategory()">Add</button>
+    </div>
+  </div>
+  <br>
+  <div class="row" ng-show="status">
+    <div class="col-md-6">
       <button type="submit" class="btn btn-success" ng-model="isEnable"   ng-click="setIsEnable()">Enable</button>
       <button type="submit" class="btn btn-warning" ng-model="isDisable"  ng-click="setIsDisable()">Disable</button>
       <button type="submit" class="btn btn-danger"  ng-model="isDelete"   ng-click="setIsDelete()">Delete</button>
@@ -36,7 +43,7 @@
         <input type="text" class="form-control" ng-model="search" placeholder="Enter anything to filter">
     </div>
 
-  <div ng-show="status">Total products: {{count}}</div>
+  <div ng-show="status">Total products: <span name="count">{{count}}</span></div>
   <div class="row" ng-show="status">
       <div class="col-md-6">
           <a href="" ng-click="selectAll()">Select all</a>
@@ -55,7 +62,7 @@
     <tr ng-repeat="product in pages[currentPage - 1] | orderBy:sorting | filter:search">
       <td><input type="checkbox" ng-model="product.idSelected"></td>
       <td>{{product.id}}</td>
-      <td><a href="{{product.url}}" target="_new">{{product.name}}</a></td>
+      <td><a id="product_link" href="{{product.url}}" target="_new">{{product.name}}</a></td>
       <td>{{product.sku}}</td>
       <td>{{product.status}}</td>
     </tr>

@@ -7,7 +7,6 @@
     ini_set("error_reporting",E_ALL & ~E_NOTICE & ~E_WARNING);
 
     include_once dirname(__FILE__) . '../../../app/Mage.php';
-    ini_set('memory_limit', '2400M');
 
     Mage::app('admin');
     umask(0);
@@ -28,10 +27,16 @@
     $type = $request->{'type'};
 
     if(!empty($category)){
-    	$collection = Mage::getModel("catalog/category")->load($category)->getProductCollection()->addAttributeToSelect('*');
+    	$collection = Mage::getModel("catalog/category")->load($category)->getProductCollection()->addAttributeToSelect('id');
+      $collection->addAttributeToSelect('name');
+      $collection->addAttributeToSelect('status');
+      $collection->addAttributeToSelect('product_url');
     }
     else{
-    	$collection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('*');
+    	$collection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('id');
+      $collection->addAttributeToSelect('name');
+      $collection->addAttributeToSelect('status');
+      $collection->addAttributeToSelect('product_url');
     }
              
     if(!empty($type))

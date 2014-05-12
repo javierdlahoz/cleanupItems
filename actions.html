@@ -15,14 +15,6 @@
   Done!
 </div>
 <div ng-show="finish">
-  <h4>Indexes</h4>
-  <div class="row">
-    <div class="col-md-6">
-      <button class="btn btn-primary" ng-click="reindexAll()">Reindex All</button>
-      <button class="btn btn-primary" ng-click="indexAuto()">Update on Save</button>
-      <button class="btn btn-primary" ng-click="indexAuto()">Manual Update</button>
-    </div>
-  </div>
   <br ng-hide="finishReindex">
   <div class="alert alert-warning" ng-hide="finishReindex">Please wait... Magento's working</div>
   <center><img src="waiting.gif" ng-show="reindexWait"></center>

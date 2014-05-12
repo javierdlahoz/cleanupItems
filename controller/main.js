@@ -4,7 +4,7 @@ angular.module('myApp')
   .controller('MainController', function ($scope, $http , $rootScope, $location) {
   	$scope.catStatus = false;
   	if($rootScope.categories == null){
-	  	$http.get("http://10.0.15.12/otteny.com/cleanup/backend/categories.php").success(function(data) {
+	  	$http.get("backend/categories.php").success(function(data) {
 				    $scope.categories = data;
 				    $rootScope.categories = $scope.categories;
 				    $scope.catStatus = true;
@@ -67,8 +67,29 @@ angular.module('myApp')
 			priceTo: $scope.priceTo,
 			type: $scope.type_id
 		};
-		$rootScope.Params = $scope.formData;
-		$location.path("/list");
+		if($scope.validate()){
+			$rootScope.Params = $scope.formData;
+			$location.path("/list");
+		}
 	};
 
+	$scope.validate = function(){
+		if($scope.priceFrom>$scope.priceTo){
+			$scope.alerts = [
+			    { type: 'danger', msg: 'Please check your price amounts' }
+			  ];
+			return false;
+		}
+		if($scope.from>$scope.to){
+			$scope.alerts = [
+			    { type: 'danger', msg: 'Please check your dates' }
+			  ];
+			return false;	
+		}
+		return true;
+	}
+
+	$scope.closeAlert = function(index) {
+	    $scope.alerts.splice(index, 1);
+	};
   });

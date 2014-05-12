@@ -9,18 +9,42 @@
       <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
   </head>
   <body ng-controller="IndexController">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="opacity: 0.92; box-shadow: 0px 0px 14px -6px #000;">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a ng-click="reindexAll()" style="cursor: pointer">Reindex All</a></li>
+        <li ng-show="reindex"><div style="padding-top: 14px;"><img src="processing.gif" width="22px"></div></li>
+        <li><a ng-click="indexManual()" style="cursor: pointer">Indexes to update manually</a></li>
+        <li><a ng-click="indexAuto()" style="cursor: pointer">Indexes to update on save</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
   <div class="container">
-        <h2>CleanUp Items from Magento</h2>
-        <div ng-view="" ng-show="isLoggedIn"></div>
-        <div ng-hide="isLoggedIn">
-          <div class="alert alert-danger">I'm sorry, but you must be logged in to access this page :(</div>
-        </div>
+    <div style="height:50px"></div>
+    <alert ng-repeat="alert in alertas" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert> 
+    <h2>CleanUp Items from Magento</h2>
+    <div ng-view="" ng-show="isLoggedIn"></div>
+    <div ng-hide="isLoggedIn">
+    <div class="alert alert-danger">I'm sorry, but you must be logged in to access this page :(</div>
+    </div>       
   </div>
       <script src="angular/angular.min.js"></script>
       <script src="angular/angular-resource.min.js"></script>
       <script src="angular/angular-route.min.js"></script>
       <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
       <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+      <script src="bootstrap/js/bootstrap.min.js"></script>
       <script src="controller/app.js"></script>
       <script src="controller/index.js"></script>
       <script src="controller/main.js"></script>

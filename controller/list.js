@@ -12,7 +12,7 @@ angular.module('myApp')
 
   	if($rootScope.categories == null)
   	{	$scope.catStatus = false;
-  		$http.get("http://10.0.15.12/otteny.com/cleanup/backend/categories.php").success(function(data) {
+  		$http.get("backend/categories.php").success(function(data) {
 			    $scope.categories = data;
 			    $rootScope.categories = $scope.categories;
 			    $scope.catStatus = true;
@@ -22,12 +22,11 @@ angular.module('myApp')
   	}
   	$scope.categories = $rootScope.categories;
 
-  	$http.post("http://10.0.15.12/otteny.com/cleanup/backend/productFilter.php", $rootScope.Params).success(function(data) {
+  	$http.post("backend/productFilter.php", $rootScope.Params).success(function(data) {
 			    $scope.table = data;
 			    $scope.status = true;
 			    $scope.count = data.length;
 			    $scope.pages = getPagination($scope.table, $scope.pageLength);
-
 			    if($scope.count>0){
 			    	$scope.visible = true;
 			    	if($scope.count>$scope.pageLength)
@@ -75,25 +74,36 @@ angular.module('myApp')
   	};
 
   	$scope.actions = function(form){
-  		var selectedItems = new Array();
-    	for(var i=0; i<$scope.count; i++){
-    		if($scope.table[i].idSelected==true){
-    			selectedItems[i] = $scope.table[i].id;
-    		}
-    	}
+  		if($scope.validate()){
+  			var selectedItems = new Array();
+	    	for(var i=0; i<$scope.count; i++){
+	    		if($scope.table[i].idSelected==true){
+	    			selectedItems[i] = $scope.table[i].id;
+	    		}
+	    	}
 
-		$scope.formData = {
-			products: selectedItems,
-			isEnable: $scope.isEnable,
-			isDisable: $scope.isDisable,
-			isDelete: $scope.isDelete,
-			category: $scope.category,
-			moveTo: $scope.moveTo
-		};
+			$scope.formData = {
+				products: selectedItems,
+				isEnable: $scope.isEnable,
+				isDisable: $scope.isDisable,
+				isDelete: $scope.isDelete,
+				category: $scope.category,
+				moveTo: $scope.moveTo
+			};
 
-		$rootScope.Params = $scope.formData;
-		$location.path("/actions");
+			$rootScope.Params = $scope.formData;
+			$location.path("/actions");
+  		}
+  		else{
+  			$scope.alerts = [
+			    { type: 'danger', msg: 'Please check at least one' }
+			  ];
+  		}	  
+  		
 	};
+	$scope.closeAlert = function(index) {
+	    $scope.alerts.splice(index, 1);
+	  };
 
 	$scope.setIsDelete = function(){
 		$scope.isDelete = "true";
@@ -113,5 +123,15 @@ angular.module('myApp')
 
 	$scope.sortBy = function(tSorting){
 		$scope.sorting = tSorting;
+	}
+
+	$scope.validate = function(){
+		for(var i=0; i<$scope.table.length; i++){
+			if($scope.table[i].idSelected)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
   });
