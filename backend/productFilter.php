@@ -21,10 +21,13 @@
     $noPicture = $request->{'noPicture'};
     $priceFrom = $request->{'priceFrom'}; 
     $priceTo = $request->{'priceTo'};
+    $qtyFrom = $request->{'qtyFrom'}; 
+    $qtyTo = $request->{'qtyTo'};
     $category = $request->{'category'};
     $enabledProducts = $request->{'enabledProducts'};
     $disabledProducts = $request->{'disabledProducts'};
     $type = $request->{'type'};
+    $name = $request->{'productName'};
 
     if(!empty($category)){
     	$collection = Mage::getModel("catalog/category")->load($category)->getProductCollection()->addAttributeToSelect('id');
@@ -37,6 +40,10 @@
       $collection->addAttributeToSelect('name');
       $collection->addAttributeToSelect('status');
       $collection->addAttributeToSelect('product_url');
+    }
+
+    if(!empty($name)){
+      $collection->addAttributeToFilter('name', array('like' => '%'.$name.'%'));
     }
              
     if(!empty($type))
@@ -72,6 +79,19 @@
     if($priceTo!=0){
       $collection->addAttributeToFilter('price', array('gt' => $priceFrom))
                    ->addAttributeToFilter('price', array('lt' => $priceTo));
+    }
+
+    if($qtyTo!=0){
+      $collection->joinField(
+                  'qty',
+                  'cataloginventory/stock_item',
+                  'qty',
+                  'product_id=entity_id',
+                  '{{table}}.stock_id=1',
+                  'left'
+                  );
+      $collection->addAttributeToFilter('qty', array('gt' => $qtyFrom))
+                   ->addAttributeToFilter('qty', array('lt' => $qtyTo));
     }
 
     if($enabledProducts){

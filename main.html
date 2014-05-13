@@ -1,12 +1,15 @@
-<h3>Please choose your filter options</h3>
+<h4>Please choose your filter options</h4>
 <hr>
 <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
   <form role="form" ng-submit="search(form)" name="form">
+    <label for="productName">Search by name: </label>
+        <input class="form-control" ng-model="productName" name="productName">
+   <hr>
   <h4>Dates</h4>
   <div class="row">
     <div class="col-md-6">
         <label for="filter">Filter by: </label>
-        <select name="filter_select" ng-model="filter" class="form-control" required>
+        <select name="filter_select" ng-model="filter" class="form-control">
           <option value="updated">Updated at</option>
           <option value="created">Created at</option>
         </select>
@@ -44,6 +47,18 @@
             <input type="number" ng-model="priceTo" class="form-control" placeholder="0" name="toP">
         </div>
     </div>
+  <hr>
+  <h4>Quantity</h4>
+  <div class="row">
+    <div class="col-md-6">
+        <label for="qtyFrom">From: </label>
+        <input type="number" ng-model="qtyFrom" class="form-control" placeholder="0" name="fromQ">
+    </div>
+    <div class="col-md-6">
+        <label for="atyTo">To: </label>
+        <input type="number" ng-model="qtyTo" class="form-control" placeholder="0" name="toQ">
+    </div>
+  </div>
   <hr>
     <div class="row">
     <div class="col-md-6">

@@ -1,13 +1,11 @@
 <h3>List of filtered products</h3>
-<a href="#">Go back</a>
 <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 <div ng-hide="status">
   <div class="alert alert-warning">
     Please wait... you know, sometimes Magento takes a long time...
   </div>
-
   <center>
-      <img style="width: 100%;" src="waiting.gif" alt=""/>
+      <img style="width: 100%;" src="images/waiting.gif" alt=""/>
 </center>
 </div>
 <div ng-show="visible">
@@ -34,22 +32,22 @@
       <button type="submit" class="btn btn-danger"  ng-model="isDelete"   ng-click="setIsDelete()">Delete</button>
     </div>
   </div>
-
-
-  <pagination ng-show="pageStatus" total-items="count" ng-model="currentPage" max-size="20" items-per-page="50" class="pagination-sm" boundary-links="true" rotate="false"></pagination>
-
-    <div ng-show="status" class="form-group">
+  
+  <div ng-show="status" class="form-group">
         <label>Search</label>
         <input type="text" class="form-control" ng-model="search" placeholder="Enter anything to filter">
     </div>
 
-  <div ng-show="status">Total products: <span name="count">{{count}}</span></div>
+  <pagination ng-show="pageStatus" total-items="count" ng-model="currentPage" max-size="20" items-per-page="50" class="pagination-sm" boundary-links="true" rotate="false"></pagination>
+
   <div class="row" ng-show="status">
-      <div class="col-md-6">
-          <a href="" ng-click="selectAll()">Select all</a>
-          |
-          <a href="" ng-click="selectNone()">Select none</a>
-      </div>
+    <div class="col-md-6">
+      <a href="" ng-click="selectAll()">Select all</a>
+      |
+      <a href="" ng-click="selectNone()">Select none</a>
+      |
+      (Total products: <span name="count">{{count}}</span>)
+    </div>
   </div>
   <table class="table table-striped table-condensed table-hover" ng-show="status" ng-table="table" show-filter="true">
     <tr>

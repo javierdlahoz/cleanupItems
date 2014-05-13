@@ -1,5 +1,4 @@
 <h3>Actions</h3>
-<a href="#">Go back</a>
 <hr>
 <div ng-hide="finish">
   Executing {{itemCount}} of {{count}}
@@ -13,12 +12,6 @@
 </div>
 <div class="alert alert-success" ng-show="finish && finishReindex">
   Done!
-</div>
-<div ng-show="finish">
-  <br ng-hide="finishReindex">
-  <div class="alert alert-warning" ng-hide="finishReindex">Please wait... Magento's working</div>
-  <center><img src="waiting.gif" ng-show="reindexWait"></center>
-  <hr>
 </div>
 <div class="row">
   <div class="col-md-6">

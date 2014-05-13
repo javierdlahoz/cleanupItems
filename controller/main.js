@@ -65,7 +65,10 @@ angular.module('myApp')
 			disabledProducts: $scope.disabledProducts,
 			priceFrom: $scope.priceFrom,
 			priceTo: $scope.priceTo,
-			type: $scope.type_id
+			type: $scope.type_id,
+			productName: $scope.productName,
+			qtyFrom: $scope.qtyFrom,
+			qtyTo: $scope.qtyTo
 		};
 		if($scope.validate()){
 			$rootScope.Params = $scope.formData;
@@ -83,6 +86,12 @@ angular.module('myApp')
 		if($scope.from>$scope.to){
 			$scope.alerts = [
 			    { type: 'danger', msg: 'Please check your dates' }
+			  ];
+			return false;	
+		}
+		if($scope.qtyFrom>$scope.qtyTo){
+			$scope.alerts = [
+			    { type: 'danger', msg: 'Please check your quantities' }
 			  ];
 			return false;	
 		}

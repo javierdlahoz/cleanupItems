@@ -7,9 +7,11 @@ angular.module('myApp')
 		};
 	var action = {action: "--mode-manual"};
 	$scope.reindex = false;
-  	/*$http.post("backend/users.php", formData).success(function(data) {
-			    console.log(data);
+  
+  //ONLY LOGGED IN USERS
+  /*$http.post("backend/users.php", formData).success(function(data) {
 			    $scope.loggedIn = data.status;
+          $scope.url = data.url;
 			 }).error(function(data) {
 			  	console.log("Web service error");
 	});*/
