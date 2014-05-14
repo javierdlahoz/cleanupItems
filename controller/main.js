@@ -2,7 +2,12 @@
 
 angular.module('myApp')
   .controller('MainController', function ($scope, $http , $rootScope, $location) {
+  	$scope.pageLength = 50;
+  	$scope.currentPage = 1;
   	$scope.catStatus = false;
+  	
+  	$http.get("backend/readyToGo.php?action=new").success(function(data) {});
+
   	if($rootScope.categories == null){
 	  	$http.get("backend/categories.php").success(function(data) {
 				    $scope.categories = data;
@@ -68,10 +73,14 @@ angular.module('myApp')
 			type: $scope.type_id,
 			productName: $scope.productName,
 			qtyFrom: $scope.qtyFrom,
-			qtyTo: $scope.qtyTo
+			qtyTo: $scope.qtyTo,
+			isSelected: true,
+			pageLength: $scope.pageLength,
+			currentPage: $scope.currentPage
 		};
 		if($scope.validate()){
 			$rootScope.Params = $scope.formData;
+			$rootScope.Collections = $rootScope.Params;
 			$location.path("/list");
 		}
 	};

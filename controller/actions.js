@@ -3,11 +3,10 @@
 angular.module('myApp')
   .controller('ActionsController', function ($scope, $http, $rootScope) {
   	var j=0;
-    var tmp = $rootScope.Params.products.length;
-    var tProducts = new Array();
     var isEnable, isDisable, isDelete, moveTo, category, index;
     $scope.finishReindex = true;
     $scope.reindexWait = false;
+    $scope.ready = false;
 
     var action = {action: "--mode-manual"};
     $http.post("backend/indexes.php", action).success(function(data) {
@@ -15,55 +14,43 @@ angular.module('myApp')
             console.log("Web service error");
     });
 
-    for(var i=0; i<tmp; i++){
-      if($rootScope.Params.products[i]!=null){
-        tProducts[j] = $rootScope.Params.products[i];
-        isEnable= $rootScope.Params.isEnable;
-        isDisable= $rootScope.Params.isDisable;
-        isDelete= $rootScope.Params.isDelete;
-        moveTo = $rootScope.Params.moveTo;
-        category= $rootScope.Params.category;
-        j++;
-      }
-    }
-
+    var formData = $rootScope.Params;     
     $scope.count = j;
     $scope.itemCount = 0;
     $scope.finish = false;
     $scope.products = new Array();
     index = true;
+    var end = false;
 
-    for(var i=0; i<$scope.count; i++){
-      if(i!=0){ 
-        index = false;
+    $http.post("backend/readyToGo.php", $rootScope.Collections).success(function(data){
+      console.log(data);
+      $scope.ready = data.ready;
+      if($scope.ready){ 
+        console.log("ya entro"); 
+        $http.post("backend/actions.php", formData).success(function(data) {
+              console.log(data);
+              while(!end){
+                $http.get("backend/results.json").success(function(data) {
+                  console.log(data);
+                  if(data.total>data.index)
+                    end = true;
+                  $scope.count = data.total;
+                  $scope.itemCount = data.index; 
+                });
+              }
+              /*if($scope.itemCount==$scope.count)
+                  { var sendData = {products: $scope.products};
+                    $http.post("backend/products.php", sendData).success(function(data) {
+                      $scope.finish = true;
+                      }).error(function(data) {
+                          console.log("Web service error");
+                      });
+                   }*/
+        	 }).error(function(data) {
+        	  	console.log("Web service error");
+        	 });
       }
-
-      var formData = {
-        isEnable: isEnable,
-        isDisable: isDisable,
-        isDelete: isDelete,
-        products: tProducts[i],
-        moveTo: moveTo,
-        category: category,
-        index: index
-      };
-      
-      $http.post("backend/actions.php", formData).success(function(data) {
-            $scope.products[$scope.itemCount] = data;
-            $scope.itemCount++;
-            if($scope.itemCount==$scope.count)
-                { var sendData = {products: $scope.products};
-                  $http.post("backend/products.php", sendData).success(function(data) {
-                    $scope.finish = true;
-                    }).error(function(data) {
-                        console.log("Web service error");
-                    });
-                 }
-      	 }).error(function(data) {
-      	  	console.log("Web service error");
-      	 });
-      
-    }
+    });
 
     if($rootScope.Params.isEnable=='true')
       $scope.formAction = "Enabled products";

@@ -9,12 +9,13 @@ angular.module('myApp')
 	$scope.reindex = false;
   
   //ONLY LOGGED IN USERS
-  /*$http.post("backend/users.php", formData).success(function(data) {
+  $http.post("backend/users.php", formData).success(function(data) {
 			    $scope.loggedIn = data.status;
           $scope.url = data.url;
+          console.log(data);
 			 }).error(function(data) {
 			  	console.log("Web service error");
-	});*/
+	});
 
 	$rootScope.isLoggedIn = true;
 

@@ -25,6 +25,7 @@
 		if(Mage::getSingleton('admin/session')->isLoggedIn()){
 			$status = true;
 		}
-		$json_response = array("status" => $status);
+        $url = Mage::helper("adminhtml")->getUrl();
+		$json_response = array("status" => $status, "url" => $url);
 		return json_encode($json_response);
 	}

@@ -13,25 +13,35 @@
     $body = file_get_contents("php://input");
     $request = json_decode($body);
 
-    $productId = $request->{'products'};
     $isEnable = $request->{'isEnable'};
     $isDisable = $request->{'isDisable'};
     $isDelete = $request->{'isDelete'};
     $category =  $request->{'category'};
     $moveTo = $request->{'moveTo'};
-    $index = $request->{'index'};
+    $isSelected = $request->{'isSelected'};
+    $noSelected = $request->{'noSelected'};
+    $Selected = $request->{'Selected'};
     $storeid=0;
-
+    $products = Mage::getSingleton('core/session')->getProducts();
+    
+    $fileName = 'results.json';
+    if(file_exists($fileName))
+      unlink($fileName);
+    $fp = fopen($fileName, 'w');
+    $total = count($products);
+    $i=1;
     if($isDisable=="true"){
-        $product = Mage::getModel('catalog/product')->load($productId);
+      foreach ($products as $_product) {
+        $product = Mage::getModel('catalog/product')->load($_product['id']);
         $productArray = array(
-              "id" => $product->getId(),
-              "name" => $product->getName(),
-              "sku" => $product->getSku()
+              "id" => $_product['id'],
+              "name" => $_product['name']
           );
-        echo json_encode($productArray);
+        fwrite($fp, json_encode(array('total'=>$total, 'index' => $i)));
         $product->setStatus(0);
         $product->save();
+      }
+      fclose($fp);  
     }
 
     if($isEnable=="true"){
@@ -85,3 +95,4 @@
       $product->setCategoryIds($categories_id);
       $product->save();
     }
+  

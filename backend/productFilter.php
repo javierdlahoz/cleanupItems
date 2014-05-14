@@ -5,9 +5,7 @@
     ini_set('display_startup_errors', 1);
     ini_set('log_errors', 1);
     ini_set("error_reporting",E_ALL & ~E_NOTICE & ~E_WARNING);
-
     include_once dirname(__FILE__) . '../../../app/Mage.php';
-
     Mage::app('admin');
     umask(0);
 
@@ -28,6 +26,11 @@
     $disabledProducts = $request->{'disabledProducts'};
     $type = $request->{'type'};
     $name = $request->{'productName'};
+    $pageLength = $request->{'pageLength'};
+    $currentPage = $request->{'currentPage'};
+    $isSelected = $request->{'isSelected'};
+    
+    $responseArray = array();
 
     if(!empty($category)){
     	$collection = Mage::getModel("catalog/category")->load($category)->getProductCollection()->addAttributeToSelect('id');
@@ -104,28 +107,38 @@
 
     if($noPicture){
         $products_array = array();
+        $count  = $collection->getSize();
+        $collection->setPageSize($pageLength)
+                   ->setCurPage($currentPage);
+
         foreach ($collection as $product) {
-              $_product = Mage::getModel('catalog/product')->load($product_id); 
-              $galleryData = $_product->getMediaGalleryImages();
-              $images = $product->getImage();
-               if(count($galleryData)==0){
-                   if(empty($images)){
-                         $url = $product->getProductUrl();
-			                   $product_array = array(
-      			                  "id" => $product->getId(),
-      			                  "name" => $product->getName(),
-      			                  "sku" => $product->getSku(),
-      			                  "url" => str_replace("productFilter.php/", "", $url),
-      			                  "status" => (bool) $product->getStatus(),
-      			                  "idSelected" => true
-      			             );
-			             array_push($products_array, $product_array);
-                   }
+          $_product = Mage::getModel('catalog/product')->load($product_id); 
+          $galleryData = $_product->getMediaGalleryImages();
+          $images = $product->getImage();
+           if(count($galleryData)==0){
+               if(empty($images)){
+                 $url = $product->getProductUrl();
+                 $product_array = array(
+		                  "id" => $product->getId(),
+		                  "name" => $product->getName(),
+		                  "sku" => $product->getSku(),
+		                  "url" => str_replace("productFilter.php/", "", $url),
+		                  "status" => (bool) $product->getStatus(),
+		                  "idSelected" => $isSelected
+		             );
+	             array_push($products_array, $product_array);
                }
+           }
         }
+        array_push($responseArray, array("products" => $products_array));
+        array_push($responseArray, array("count" => $count));
     }
     else{
-        $products_array = array();
+        $products_array = array();        
+        $count  = $collection->getSize();
+        $collection->setPageSize($pageLength)
+                   ->setCurPage($currentPage);
+
         foreach ($collection as $product) {
               $url = $product->getProductUrl();
               $product_array = array(
@@ -134,9 +147,12 @@
                   "sku" => $product->getSku(),
                   "url" => str_replace("productFilter.php/", "", $url),
                   "status" => (bool) $product->getStatus(),
-                  "idSelected" => true
+                  "idSelected" => $isSelected
               );
               array_push($products_array, $product_array);
         }
+        array_push($responseArray, array("products" => $products_array));
+        array_push($responseArray, array("count" => $count));
     }
-    echo json_encode($products_array);
+
+    echo json_encode($responseArray);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('ListController', function ($scope, $http, $rootScope, $location) {
+  .controller('ListController', function ($scope, $http, $rootScope, $location, $modal) {
   	
   	$scope.sorting = 'id';
   	$scope.visible = true;
@@ -9,6 +9,8 @@ angular.module('myApp')
   	$scope.currentPage = 1;
   	$scope.pageStatus = false;
   	$scope.catStatus = true;
+  	$scope.Selected = new Array();
+  	$scope.noSelected = new Array();
 
   	if($rootScope.categories == null)
   	{	$scope.catStatus = false;
@@ -23,20 +25,14 @@ angular.module('myApp')
   	$scope.categories = $rootScope.categories;
 
   	$http.post("backend/productFilter.php", $rootScope.Params).success(function(data) {
-			    $scope.table = data;
+			    $scope.products = data[0].products;
 			    $scope.status = true;
-			    $scope.count = data.length;
-			    $scope.pages = getPagination($scope.table, $scope.pageLength);
-			    if($scope.count>0){
+			    $scope.count = data[0].products.length;			   
+			    $scope.total = data[1].count;
+			    if($scope.total>0){
 			    	$scope.visible = true;
-			    	if($scope.count>$scope.pageLength)
-			    		{ $scope.pages = getPagination($scope.table, $scope.pageLength);
-			    		  $scope.pageStatus = true;			    		  
-			    		}
-			    	else{
-			    		$scope.pages[0] = $scope.table;
-			    		$scope.pageStatus = false;
-			    	}		
+			    	if($scope.total>$scope.pageLength)
+			    		$scope.pageStatus = true;
 			    }
 			    else
 			    	$scope.visible = false;
@@ -44,61 +40,110 @@ angular.module('myApp')
 			  	console.log("Web service error");
 	});
 
-	$scope.changePage = function(page){
-		$scope.currentPage = page;
-		activatePage($scope.currentPage, $scope.pages.length);
+	$scope.changePage = function(){
+		$rootScope.Params.pageLength = $scope.pageLength;
+		$rootScope.Params.currentPage = $scope.currentPage;
+
+		$http.post("backend/productFilter.php", $rootScope.Params).success(function(data) {
+			    $scope.products = data[0].products;
+			    $scope.status = true;
+			    $scope.count = data[0].products.length;			   
+			    $scope.total = data[1].count;
+			    if($scope.total>0){
+			    	$scope.visible = true;
+			    	if($scope.total>$scope.pageLength)
+			    		$scope.pageStatus = true;
+			    	$scope.showSelected();
+			    }
+			    else
+			    	$scope.visible = false;
+			 }).error(function(data) {
+			  	console.log("Web service error");
+		});
 	}
 
-	$scope.nextPage = function(){
-		if($scope.currentPage!=$scope.pages.length-1)
-			$scope.currentPage++;
-		activatePage($scope.currentPage, $scope.pages.length);
+	$scope.selectAll = function() {
+		$rootScope.Params.isSelected = true;
+		$scope.Selected = new Array();
+  	for(var i=0; i<$scope.count; i++){
+  		$scope.products[i].idSelected=true;
+  	}
+	};
+
+	$scope.selectNone = function() {
+		$scope.noSelected = new Array();
+		$rootScope.Params.isSelected = false;
+  	for(var i=0; i<$scope.count; i++){
+  		$scope.products[i].idSelected=false;
+  	}
+	};
+
+	$scope.selection = function(idSelected){
+		if($rootScope.Params.isSelected){
+			if($scope.removeSelection($scope.noSelected, idSelected))
+				$scope.noSelected.push(parseInt(idSelected));
+		}
+		else{
+			if($scope.removeSelection($scope.Selected, idSelected))
+				$scope.Selected.push(parseInt(idSelected));
+		}
 	}
 
-	$scope.lastPage = function(){
-		if($scope.currentPage!=0)
-			$scope.currentPage--;
-		activatePage($scope.currentPage, $scope.pages.length);
+	$scope.removeSelection = function(tmpArray, idSelected){
+		for(var i=0; i<tmpArray.length; i++){
+			if(tmpArray[i]==idSelected)
+				{ tmpArray[i] = null;
+					return false;
+					break;
+				}
+		}
+		return true;
 	}
 
-  	$scope.selectAll = function() {
-    	for(var i=0; i<$scope.count; i++){
-    		$scope.table[i].idSelected=true;
-    	}
-  	};
+	$scope.showSelected = function(){
+		for(var i=0; i<$scope.count; i++){
+			if($rootScope.Params.isSelected){
+				for(var j=0; j<$scope.noSelected.length; j++){
+					if($scope.products[i].id == $scope.noSelected[j]){
+						$scope.products[i].idSelected = false;
+					}
+				}
+			}
+			else{
+				for(var j=0; j<$scope.Selected.length; j++){
+					if($scope.products[i].id == $scope.Selected[j]){
+						$scope.products[i].idSelected = true;
+					}
+				}
+			}
+		}
+	}
+	
+	$scope.$on('event:confirm', function () {
+		$scope.setIsDelete();
+		$scope.actions();
+  });
 
-  	$scope.selectNone = function() {
-    	for(var i=0; i<$scope.count; i++){
-    		$scope.table[i].idSelected=false;
-    	}
-  	};
-
-  	$scope.actions = function(form){
-  		if($scope.validate()){
-  			var selectedItems = new Array();
-	    	for(var i=0; i<$scope.count; i++){
-	    		if($scope.table[i].idSelected==true){
-	    			selectedItems[i] = $scope.table[i].id;
-	    		}
-	    	}
-
+	$scope.actions = function(){
+		if($scope.validate()){
 			$scope.formData = {
-				products: selectedItems,
 				isEnable: $scope.isEnable,
 				isDisable: $scope.isDisable,
 				isDelete: $scope.isDelete,
 				category: $scope.category,
-				moveTo: $scope.moveTo
+				moveTo: $scope.moveTo,
+				isSelected: $rootScope.Params.isSelected,
+				noSelected: $scope.noSelected,
+				Selected: $scope.Selected
 			};
-
 			$rootScope.Params = $scope.formData;
 			$location.path("/actions");
-  		}
-  		else{
-  			$scope.alerts = [
-			    { type: 'danger', msg: 'Please check at least one' }
-			  ];
-  		}	  
+		}
+		else{
+			$scope.alerts = [
+		    { type: 'danger', msg: 'Please check at least one' }
+		  ];
+		}	  
   		
 	};
 	$scope.closeAlert = function(index) {
@@ -126,12 +171,42 @@ angular.module('myApp')
 	}
 
 	$scope.validate = function(){
-		for(var i=0; i<$scope.table.length; i++){
-			if($scope.table[i].idSelected)
-			{
+		if(($rootScope.Params.isSelected==true)&&($scope.noSelected.length<$scope.count)){
 				return true;
-			}
+		}
+		if(($rootScope.Params.isSelected==false)&&($scope.Selected.length>0)){
+				for(var i=0; i<$scope.Selected.length; i++){
+					if($scope.Selected[i]!=null)
+					{							
+						return true;
+					}
+				}
 		}
 		return false;
 	}
-  });
+
+	//MODAL FUNCTIONS
+	$scope.open = function (size) {
+	    var modalInstance = $modal.open({
+	      templateUrl: 'myModalContent.html',
+	      controller: ModalInstanceCtrl,
+	      size: size
+	    });
+	};
+});
+// Please note that $modalInstance represents a modal window (instance) dependency.
+// It is not the same as the $modal service used above.
+
+var ModalInstanceCtrl = function ($scope,$rootScope, $modalInstance) {
+
+  $scope.ok = function () {
+    $rootScope.$broadcast('event:confirm');
+    $modalInstance.close();
+    return true;
+  };
+
+  $scope.cancel = function () {	
+    $modalInstance.dismiss('cancel');
+    return false;
+  };
+};

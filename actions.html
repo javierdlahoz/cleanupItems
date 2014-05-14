@@ -1,35 +1,46 @@
 <h3>Actions</h3>
-<hr>
-<div ng-hide="finish">
-  Executing {{itemCount}} of {{count}}
-  <div class="progress progress-striped active">
-    <div class="progress-bar" role="progressbar"
-         aria-valuenow="{{itemCount}}" aria-valuemin="0" aria-valuemax="{{count}}"
-         style="width: {{100*itemCount/count}}%">
-      <span class="sr-only">{{100*itemCount/count}}% completed</span>
+<div ng-hide="ready">
+  <div class="alert alert-warning">
+    Please wait untill the whole collection is loaded
+  </div>
+  <center>
+    <img style="width: 100%;" src="images/waiting.gif"/>
+  </center>
+</div>
+<div ng-show="ready">
+  <hr>
+  <div ng-hide="finish">
+    Executing {{itemCount}} of {{count}}
+    <div class="progress progress-striped active">
+      <div class="progress-bar" role="progressbar"
+           aria-valuenow="{{itemCount}}" aria-valuemin="0" aria-valuemax="{{count}}"
+           style="width: {{100*itemCount/count}}%">
+        <span class="sr-only">{{100*itemCount/count}}% completed</span>
+      </div>
+    </div>
+    <progressbar animate="false" value="" type="success"><b>{{100*itemCount/count}}%</b></progressbar>
+  </div>
+  <div class="alert alert-success" ng-show="finish && finishReindex">
+    Done!
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>List of {{formAction}} limit to 50</h3>
+    </div>
+    <div class="col-md-6" style="text-align: right; vertical-align: bottom" ng-show="finish">
+      <a href="files/actionProducts.csv">CSV with all the {{formAction}}</a>
     </div>
   </div>
+  <table class="table table-striped table table-striped table-condensed table-hover">
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Sku</th>
+    </tr>
+    <tr ng-repeat="product in products | limitTo:50">
+      <td>{{product.id}}</td>
+      <td>{{product.name}}</td>
+      <td>{{product.sku}}</td>
+    </tr>
+  </table>
 </div>
-<div class="alert alert-success" ng-show="finish && finishReindex">
-  Done!
-</div>
-<div class="row">
-  <div class="col-md-6">
-    <h3>List of {{formAction}} limit to 50</h3>
-  </div>
-  <div class="col-md-6" style="text-align: right; vertical-align: bottom" ng-show="finish">
-    <a href="files/actionProducts.csv">CSV with all the {{formAction}}</a>
-  </div>
-</div>
-<table class="table table-striped table table-striped table-condensed table-hover">
-  <tr>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Sku</th>
-  </tr>
-  <tr ng-repeat="product in products | limitTo:50">
-    <td>{{product.id}}</td>
-    <td>{{product.name}}</td>
-    <td>{{product.sku}}</td>
-  </tr>
-</table>

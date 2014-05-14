@@ -2,7 +2,7 @@
 <hr>
 <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
   <form role="form" ng-submit="search(form)" name="form">
-    <label for="productName">Search by name: </label>
+    <label for="productName">Filter by name: </label>
         <input class="form-control" ng-model="productName" name="productName">
    <hr>
   <h4>Dates</h4>
@@ -60,7 +60,7 @@
     </div>
   </div>
   <hr>
-    <div class="row">
+  <div class="row">
     <div class="col-md-6">
       <label for="category">Type: </label>
       <select ng-model="type_id" class="form-control" name="typeId">
@@ -71,25 +71,25 @@
       	<option value="virtual">virtual</option>
       </select>
     </div>
-  </div>
-
-  <div class="row" ng-show="catStatus">
-    <div class="col-md-6">
-      <label for="category">Category: </label>
-      <select ng-model="category" class="form-control" name="categoryIn">
-        <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}} (id:{{category.id}})</option>
-      </select>
+    <div class="col-md-6" >
+      <div ng-show="catStatus">
+          <label for="category">Category: </label>
+          <select ng-model="category" class="form-control" name="categoryIn">
+            <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}} (id:{{category.id}})</option>
+          </select>
+      </div>
+     <div class="alert alert-warning" ng-hide="catStatus">
+        We're loading the categories, so please wait...
+    </div>
     </div>
   </div>
   <br ng-hide="catStatus">
-  <div class="alert alert-warning" ng-hide="catStatus">
-  	We're loading the categories, so please wait...
-  </div>
+
 
   <hr>
   <h4>Special options</h4>
   <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-3">
           <div class="checkbox">
           <label>
             <input type="checkbox" value="true" ng-model="noStock" name="chNStock">
@@ -97,7 +97,7 @@
             </label>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <div class="checkbox">
             <label>
               <input type="checkbox" value="true" ng-model="noPicture" name="chNPictures">
@@ -105,7 +105,7 @@
             </label>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <div class="checkbox">
             <label>
               <input type="checkbox" value="true" ng-model="enabledProducts" name="chEProducts">
@@ -113,7 +113,7 @@
             </label>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <div class="checkbox">
             <label>
               <input type="checkbox" value="true" ng-model="disabledProducts" name="chDProducts">
@@ -122,6 +122,6 @@
           </div>
         </div>
       </div>
-    <hr>
-   <button type="submit" class="btn btn-primary">Submit</button>
+  <hr>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form>
