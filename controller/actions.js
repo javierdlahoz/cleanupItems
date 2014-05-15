@@ -14,6 +14,7 @@ angular.module('myApp')
     index = true;
     var end = false;
     var i=0;
+    $scope.indexManual();
 
     //function to get only the selected items
     $scope.getItems = function(products){
@@ -56,7 +57,6 @@ angular.module('myApp')
         $scope.ready = data.ready;
         $scope.pAction = $scope.getItems(data.products);
         $scope.count = $scope.pAction.length;
-        console.log(formData);
         if($scope.ready){ 
           selectedAllPost(i);
         }
@@ -118,4 +118,16 @@ angular.module('myApp')
     if($rootScope.Params.moveTo=='true')
       $scope.formAction = "Added products to category id: "+$rootScope.Params.category;
 
+    $scope.indexManual = function(){
+      action = {action: "--mode-manual"};
+      $http.post("backend/indexes.php", action).success(function(data) {
+          if(data.status)
+            {
+                $scope.alertas = [
+          { type: 'success', msg: 'Indexes were successfully changed to Manual update' }];          
+      }
+           }).error(function(data) {
+              console.log("Web service error");
+      });
+    }
   });

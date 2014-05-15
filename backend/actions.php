@@ -26,16 +26,6 @@
     $product = Mage::getModel('catalog/product')->load($productId);
     $pArray = array('status' => true, 'id' => $productId, 'name' => $product->getName()); 
 
-    if($index==0){
-      $fp = fopen($csv, 'w');
-      fputcsv($fp, array('id', 'name'));
-    }
-    else{
-      $fp = fopen($csv, 'a');
-    }
-    fputcsv($fp, array($productId, $product->getName()));
-    fclose($fp);
-
     if($isDisable=="true"){  
       $product->setStatus(0);
       echo json_encode($pArray);
@@ -58,6 +48,16 @@
       echo json_encode($pArray);
       addCategoryToAProduct($product, $category);
     }
+
+    if($index==0){
+      $fp = fopen($csv, 'w');
+      fputcsv($fp, array('id', 'name'));
+    }
+    else{
+      $fp = fopen($csv, 'a');
+    }
+    fputcsv($fp, array($productId, $product->getName()));
+    fclose($fp);
 
     function deleteImages($product_id){
       $_product = Mage::getModel('catalog/product')->load($product_id); 
