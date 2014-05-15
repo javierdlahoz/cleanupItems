@@ -13,80 +13,59 @@
     $body = file_get_contents("php://input");
     $request = json_decode($body);
 
+    $mediaDir = "../media/catalog/product";
+    $csv = "../files/actionProducts.csv";
     $isEnable = $request->{'isEnable'};
     $isDisable = $request->{'isDisable'};
     $isDelete = $request->{'isDelete'};
     $category =  $request->{'category'};
     $moveTo = $request->{'moveTo'};
-    $isSelected = $request->{'isSelected'};
-    $noSelected = $request->{'noSelected'};
-    $Selected = $request->{'Selected'};
+    $index = $request->{'index'};
     $storeid=0;
-    $products = Mage::getSingleton('core/session')->getProducts();
-    
-    $fileName = 'results.json';
-    if(file_exists($fileName))
-      unlink($fileName);
-    $fp = fopen($fileName, 'w');
-    $total = count($products);
-    $i=1;
-    if($isDisable=="true"){
-      foreach ($products as $_product) {
-        $product = Mage::getModel('catalog/product')->load($_product['id']);
-        $productArray = array(
-              "id" => $_product['id'],
-              "name" => $_product['name']
-          );
-        fwrite($fp, json_encode(array('total'=>$total, 'index' => $i)));
-        $product->setStatus(0);
-        $product->save();
-      }
-      fclose($fp);  
+    $productId = $request->{'productId'};
+    $product = Mage::getModel('catalog/product')->load($productId);
+    $pArray = array('status' => true, 'id' => $productId, 'name' => $product->getName()); 
+
+    if($index==0){
+      $fp = fopen($csv, 'w');
+      fputcsv($fp, array('id', 'name'));
+    }
+    else{
+      $fp = fopen($csv, 'a');
+    }
+    fputcsv($fp, array($productId, $product->getName()));
+    fclose($fp);
+
+    if($isDisable=="true"){  
+      $product->setStatus(0);
+      echo json_encode($pArray);
+      $product->save();
     }
 
     if($isEnable=="true"){
-        $product = Mage::getModel('catalog/product')->load($productId);
-        $productArray = array(
-              "id" => $product->getId(),
-              "name" => $product->getName(),
-              "sku" => $product->getSku()
-          );
-        echo json_encode($productArray);
-        $product->setStatus(1);
-        $product->save();
+      $product->setStatus(1);
+      echo json_encode($pArray);
+      $product->save();
     }
 
     if($isDelete=="true"){
-        $product = Mage::getModel('catalog/product')->load($productId);
-        deleteImages($productId);
-        $productArray = array(
-              "id" => $product->getId(),
-              "name" => $product->getName(),
-              "sku" => $product->getSku()
-          );
-        $product->delete();
-        echo json_encode($productArray);
+      deleteImages($productId);
+      echo json_encode($pArray);
+      $product->delete();
     }
 
     if($moveTo=="true"){
-        $product = Mage::getModel('catalog/product')->load($productId);
-        addCategoryToAProduct($product, $category);
-        $productArray = array(
-              "id" => $product->getId(),
-              "name" => $product->getName(),
-              "sku" => $product->getSku()
-        );
-        echo json_encode($productArray);
+      echo json_encode($pArray);
+      addCategoryToAProduct($product, $category);
     }
 
     function deleteImages($product_id){
       $_product = Mage::getModel('catalog/product')->load($product_id); 
       $galleryData = $_product->getMediaGalleryImages();
-      foreach($galleryData as $image)
-      { 
-        unlink("../media/catalog/product".$image->getFile());
+      foreach($galleryData as $image){ 
+        unlink($mediaDir.$image->getFile());
       }
-      unlink("../media/catalog/product".$_product->getImage());
+      unlink($mediaDir.$_product->getImage());
     }
 
     function addCategoryToAProduct($product, $categoryId){
@@ -95,4 +74,3 @@
       $product->setCategoryIds($categories_id);
       $product->save();
     }
-  

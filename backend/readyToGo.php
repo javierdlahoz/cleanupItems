@@ -141,6 +141,4 @@
       }
       $responseArray = $products_array;
   }
-
-  Mage::getSingleton('core/session')->setProducts($responseArray);
-  echo json_encode(array("ready" => true));
+  echo json_encode(array("ready" => true, "count" => count($responseArray), 'products' => $responseArray));

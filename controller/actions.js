@@ -2,55 +2,109 @@
 
 angular.module('myApp')
   .controller('ActionsController', function ($scope, $http, $rootScope) {
-  	var j=0;
     var isEnable, isDisable, isDelete, moveTo, category, index;
-    $scope.finishReindex = true;
-    $scope.reindexWait = false;
     $scope.ready = false;
 
-    var action = {action: "--mode-manual"};
-    $http.post("backend/indexes.php", action).success(function(data) {
-         }).error(function(data) {
-            console.log("Web service error");
-    });
-
     var formData = $rootScope.Params;     
-    $scope.count = j;
+    $scope.count = 0;
     $scope.itemCount = 0;
     $scope.finish = false;
     $scope.products = new Array();
+    $scope.percent = 0;
     index = true;
     var end = false;
+    var i=0;
 
-    $http.post("backend/readyToGo.php", $rootScope.Collections).success(function(data){
-      console.log(data);
-      $scope.ready = data.ready;
-      if($scope.ready){ 
-        console.log("ya entro"); 
-        $http.post("backend/actions.php", formData).success(function(data) {
-              console.log(data);
-              while(!end){
-                $http.get("backend/results.json").success(function(data) {
-                  console.log(data);
-                  if(data.total>data.index)
-                    end = true;
-                  $scope.count = data.total;
-                  $scope.itemCount = data.index; 
-                });
-              }
-              /*if($scope.itemCount==$scope.count)
-                  { var sendData = {products: $scope.products};
-                    $http.post("backend/products.php", sendData).success(function(data) {
-                      $scope.finish = true;
-                      }).error(function(data) {
-                          console.log("Web service error");
-                      });
-                   }*/
-        	 }).error(function(data) {
-        	  	console.log("Web service error");
-        	 });
+    //function to get only the selected items
+    $scope.getItems = function(products){
+      var items = new Array();
+      var control = true;
+      if($rootScope.Params.isSelected){
+        for(var i=0; i<products.length; i++){
+          control = true;
+          for(var j=0; j<$rootScope.Params.noSelected.length; j++){
+            if(products[i].id == $rootScope.Params.noSelected[j]){
+              control = false;
+              break;
+            }
+          }
+          if(control){
+            items.push(products[i]);
+          }
+        }
       }
-    });
+      else{
+        var tmp = new Array();
+        var k=0;
+        for(var j=0; j<$rootScope.Params.Selected.length; j++){
+            if($rootScope.Params.Selected[j] != null){
+              tmp[k] = {
+                id: $rootScope.Params.Selected[j],
+                name: null
+              };
+              items.push(tmp[k]);
+              k++;
+            }
+        }
+      }
+      return items;
+    }
+    //end of the function
+
+    if($rootScope.Params.isSelected){
+      $http.post("backend/readyToGo.php", $rootScope.Collections).success(function(data){
+        $scope.ready = data.ready;
+        $scope.pAction = $scope.getItems(data.products);
+        $scope.count = $scope.pAction.length;
+        console.log(formData);
+        if($scope.ready){ 
+          selectedAllPost(i);
+        }
+    	 }).error(function(data) {
+    	  	console.log("Web service error");
+    	 });
+    }
+    else{
+      $scope.ready = true;
+      $scope.pAction = $scope.getItems($scope.products);
+      $scope.count = $scope.pAction.length;
+      noSelectedPost(i);
+    }
+
+    function selectedAllPost(i){
+      formData.productId = $scope.pAction[i].id;
+      formData.index = i;
+      $http.post("backend/actions.php", formData).success(function(response) {
+          if($scope.itemCount<50)
+            $scope.products[$scope.itemCount] = $scope.pAction[i];
+          $scope.percent = Math.round(($scope.itemCount/($scope.count-1))*100);
+          $scope.itemCount++;
+          if($scope.itemCount==$scope.pAction.length)
+            $scope.finish = true;
+          i++;
+          if(i<$scope.pAction.length)
+            selectedAllPost(i);              
+      });
+    }
+
+    function noSelectedPost(i){
+      formData.productId = $scope.pAction[i].id;
+      formData.index = i;
+      $http.post("backend/actions.php", formData).success(function(response) {
+        if($scope.itemCount<50)
+          $scope.products[$scope.itemCount] = {
+              id: response.id,
+              name: response.name
+          };
+        $scope.percent = Math.round(($scope.itemCount/($scope.count-1))*100);
+        $scope.itemCount++;       
+        i++;
+        if($scope.itemCount==$scope.pAction.length)
+           $scope.finish = true;
+        if(i<$scope.pAction.length)
+          noSelectedPost(i);        
+        });
+    }
 
     if($rootScope.Params.isEnable=='true')
       $scope.formAction = "Enabled products";
@@ -64,19 +118,4 @@ angular.module('myApp')
     if($rootScope.Params.moveTo=='true')
       $scope.formAction = "Added products to category id: "+$rootScope.Params.category;
 
-    $scope.reindexAll = function(){
-        action = {action: "--reindexall"};
-        $scope.finishReindex = false;
-        $scope.reindexWait = true;
-        $http.post("backend/indexes.php", action).success(function(data) {
-            if(data.status)
-              {
-                $scope.finishReindex = true;
-                $scope.reindexWait = false;
-              }
-         }).error(function(data) {
-            console.log("Web service error");
-        });
-    };
-    
   });

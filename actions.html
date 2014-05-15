@@ -11,16 +11,9 @@
   <hr>
   <div ng-hide="finish">
     Executing {{itemCount}} of {{count}}
-    <div class="progress progress-striped active">
-      <div class="progress-bar" role="progressbar"
-           aria-valuenow="{{itemCount}}" aria-valuemin="0" aria-valuemax="{{count}}"
-           style="width: {{100*itemCount/count}}%">
-        <span class="sr-only">{{100*itemCount/count}}% completed</span>
-      </div>
-    </div>
-    <progressbar animate="false" value="" type="success"><b>{{100*itemCount/count}}%</b></progressbar>
+    <progressbar animate="true" value="percent" type="primary" class="progress-striped active"><b>{{percent}}%</b></progressbar>
   </div>
-  <div class="alert alert-success" ng-show="finish && finishReindex">
+  <div class="alert alert-success" ng-show="finish">
     Done!
   </div>
   <div class="row">
@@ -35,12 +28,10 @@
     <tr>
       <th>Id</th>
       <th>Name</th>
-      <th>Sku</th>
     </tr>
     <tr ng-repeat="product in products | limitTo:50">
       <td>{{product.id}}</td>
       <td>{{product.name}}</td>
-      <td>{{product.sku}}</td>
     </tr>
   </table>
 </div>
