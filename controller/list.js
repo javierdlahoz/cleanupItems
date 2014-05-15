@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('ListController', function ($scope, $http, $rootScope, $location, $modal) {
+  .controller('ListController', function ($scope, $http, $rootScope, $location, $modal , API) {
   	
   	$scope.sorting = 'id';
   	$scope.visible = true;
@@ -14,7 +14,7 @@ angular.module('myApp')
 
   	if($rootScope.categories == null)
   	{	$scope.catStatus = false;
-  		$http.get("backend/categories.php").success(function(data) {
+  		$http.get(API.base_url + API.categories).success(function(data) {
 			    $scope.categories = data;
 			    $rootScope.categories = $scope.categories;
 			    $scope.catStatus = true;
@@ -24,7 +24,7 @@ angular.module('myApp')
   	}
   	$scope.categories = $rootScope.categories;
 
-  	$http.post("backend/productFilter.php", $rootScope.Params).success(function(data) {
+  	$http.post(API.base_url + API.filter, $rootScope.Params).success(function(data) {
 			    $scope.products = data[0].products;
 			    $scope.status = true;
 			    $scope.count = data[0].products.length;			   
@@ -44,7 +44,7 @@ angular.module('myApp')
 		$rootScope.Params.pageLength = $scope.pageLength;
 		$rootScope.Params.currentPage = $scope.currentPage;
 
-		$http.post("backend/productFilter.php", $rootScope.Params).success(function(data) {
+		$http.post(API.base_url + API.filter, $rootScope.Params).success(function(data) {
 			    $scope.products = data[0].products;
 			    $scope.status = true;
 			    $scope.count = data[0].products.length;			   

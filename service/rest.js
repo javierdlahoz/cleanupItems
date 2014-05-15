@@ -7,6 +7,9 @@ angular.module('myApp')
             auth: 'users.php',
             index: 'indexes.php',
             ready:'readyToGo.php?action=new',
-            categories: 'categories.php'
+            ready_clean:'readyToGo.php',
+            actions:'actions.php',
+            categories: 'categories.php',
+            filter:'productFilter.php'
         };
     });

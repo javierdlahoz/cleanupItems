@@ -53,7 +53,7 @@ angular.module('myApp')
     //end of the function
 
     if($rootScope.Params.isSelected){
-      $http.post("backend/readyToGo.php", $rootScope.Collections).success(function(data){
+      $http.post(API.base_url + API.ready_clean, $rootScope.Collections).success(function(data){
         $scope.ready = data.ready;
         $scope.pAction = $scope.getItems(data.products);
         $scope.count = $scope.pAction.length;
@@ -74,7 +74,7 @@ angular.module('myApp')
     function selectedAllPost(i){
       formData.productId = $scope.pAction[i].id;
       formData.index = i;
-      $http.post("backend/actions.php", formData).success(function(response) {
+      $http.post(API.base_url + API.actions, formData).success(function(response) {
           if($scope.itemCount<50)
             $scope.products[$scope.itemCount] = $scope.pAction[i];
           $scope.percent = Math.round(($scope.itemCount/($scope.count-1))*100);
@@ -90,7 +90,7 @@ angular.module('myApp')
     function noSelectedPost(i){
       formData.productId = $scope.pAction[i].id;
       formData.index = i;
-      $http.post("backend/actions.php", formData).success(function(response) {
+      $http.post(API.base_url + API.actions, formData).success(function(response) {
         if($scope.itemCount<50)
           $scope.products[$scope.itemCount] = {
               id: response.id,
@@ -119,8 +119,8 @@ angular.module('myApp')
       $scope.formAction = "Added products to category id: "+$rootScope.Params.category;
 
     $scope.indexManual = function(){
-      action = {action: "--mode-manual"};
-      $http.post("backend/indexes.php", action).success(function(data) {
+      var action = {action: "--mode-manual"};
+      $http.post(API.base_url + API.actions, action).success(function(data) {
           if(data.status)
             {
                 $scope.alertas = [
