@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('IndexController', function ($scope, $http , $rootScope, $location) {
+  .controller('IndexController', function ($scope, $http , $rootScope, $location, API) {
   	var formData = {
 			meth: 'isLoggedIn'
 		};
@@ -9,10 +9,9 @@ angular.module('myApp')
 	$scope.reindex = false;
   
   //ONLY LOGGED IN USERS
-  $http.post("backend/users.php", formData).success(function(data) {
+  $http.post(API.base_url + API.auth, formData).success(function(data) {
 			    $scope.loggedIn = data.status;
           $scope.url = data.url;
-          console.log(data);
 			 }).error(function(data) {
 			  	console.log("Web service error");
 	});
@@ -22,7 +21,7 @@ angular.module('myApp')
 	$scope.reindexAll = function(){
 		$scope.reindex = true;
         action = {action: "--reindexall"};
-        $http.post("backend/indexes.php", action).success(function(data) {
+        $http.post(API.base_url + API.index, action).success(function(data) {
             if(data.status)
               {
                 $scope.reindex = false;
@@ -34,7 +33,7 @@ angular.module('myApp')
 
     $scope.indexAuto = function(){
         action = {action: "--mode-realtime"};
-        $http.post("backend/indexes.php", action).success(function(data) {
+        $http.post(API.base_url + API.index, action).success(function(data) {
             if(data.status){
               	$scope.alertas = [
 			    { type: 'success', msg: 'Indexes were successfully changed to update on save' }];			    
@@ -46,7 +45,7 @@ angular.module('myApp')
 
     $scope.indexManual = function(){
       action = {action: "--mode-manual"};
-      $http.post("backend/indexes.php", action).success(function(data) {
+      $http.post(API.base_url + API.index, action).success(function(data) {
           if(data.status)
             {
               	$scope.alertas = [

@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('MainController', function ($scope, $http , $rootScope, $location) {
+  .controller('MainController', function ($scope, $http , $rootScope, $location , API) {
   	$scope.pageLength = 50;
   	$scope.currentPage = 1;
   	$scope.catStatus = false;
   	
-  	$http.get("backend/readyToGo.php?action=new").success(function(data) {});
+  	$http.get(API.base_url + API.ready).success(function(data) {});
 
   	if($rootScope.categories == null){
-	  	$http.get("backend/categories.php").success(function(data) {
+	  	$http.get(API.base_url + API.categories).success(function(data) {
 				    $scope.categories = data;
 				    $rootScope.categories = $scope.categories;
 				    $scope.catStatus = true;

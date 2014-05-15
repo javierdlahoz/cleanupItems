@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('ActionsController', function ($scope, $http, $rootScope) {
+  .controller('ActionsController', function ($scope, $http, $rootScope , API) {
     var isEnable, isDisable, isDelete, moveTo, category, index;
     $scope.ready = false;
 
