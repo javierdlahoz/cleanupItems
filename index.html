@@ -3,7 +3,7 @@
   <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title>CleanUp</title>
+      <title>CleanUp Items {{mainTitle}}</title>
       <meta name="description" content="">
       <meta name="viewport" content="width=device-width">
       <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
@@ -32,7 +32,7 @@
   </div>
 </nav>
   <div class="container">
-    <div style="height:50px"></div>
+    <div style="height:60px"></div>
     <alert ng-repeat="alert in alertas" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert> 
     <h2>CleanUp Items from Magento</h2>
     <div ng-view="" ng-show="isLoggedIn"></div>

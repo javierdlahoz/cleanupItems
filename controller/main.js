@@ -5,6 +5,7 @@ angular.module('myApp')
   	$scope.pageLength = 50;
   	$scope.currentPage = 1;
   	$scope.catStatus = false;
+  	$rootScope.mainTitle = null;
   	
   	$http.get(API.base_url + API.ready).success(function(data) {});
 

@@ -2,6 +2,16 @@
 
 angular.module('myApp')
   .controller('ActionsController', function ($scope, $http, $rootScope , API) {
+    $scope.continue = function(){
+      $scope.stop = false;
+      if($rootScope.Params.isSelected){
+        selectedAllPost($scope.itemCount-1);
+      }
+      else{
+        noSelectedPost($scope.itemCount-1);
+      }
+    }
+
     var isEnable, isDisable, isDelete, moveTo, category, index;
     $scope.ready = false;
 
@@ -11,6 +21,8 @@ angular.module('myApp')
     $scope.finish = false;
     $scope.products = new Array();
     $scope.percent = 0;
+    $scope.stop = false;
+    $rootScope.mainTitle = $scope.percent+"%";
     index = true;
     var end = false;
     var i=0;
@@ -79,9 +91,16 @@ angular.module('myApp')
             $scope.products[$scope.itemCount] = $scope.pAction[i];
           $scope.percent = Math.round(($scope.itemCount/($scope.count-1))*100);
           $scope.itemCount++;
+          
           if($scope.itemCount==$scope.pAction.length)
             $scope.finish = true;
+
+          $rootScope.mainTitle = $scope.percent+"%";
           i++;
+
+          if($scope.stop)
+            return true;
+
           if(i<$scope.pAction.length)
             selectedAllPost(i);              
       });
@@ -97,10 +116,17 @@ angular.module('myApp')
               name: response.name
           };
         $scope.percent = Math.round(($scope.itemCount/($scope.count-1))*100);
-        $scope.itemCount++;       
+        $scope.itemCount++;
+        $rootScope.mainTitle = $scope.percent+"%";    
         i++;
+
         if($scope.itemCount==$scope.pAction.length)
            $scope.finish = true;
+
+         if($scope.stop)
+          return true;
+
+
         if(i<$scope.pAction.length)
           noSelectedPost(i);        
         });
@@ -130,4 +156,9 @@ angular.module('myApp')
               console.log("Web service error");
       });
     }
+
+    $scope.cancelStop = function(){
+      $scope.stop = true;
+    };
+
   });
