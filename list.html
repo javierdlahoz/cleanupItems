@@ -18,14 +18,14 @@
   <br>
   <div class="row" ng-show="status">
     <div class="col-md-6">
-      <button type="submit" class="btn btn-success" ng-model="isEnable"   ng-click="setIsEnable()">Enable</button>
-      <button type="submit" class="btn btn-warning" ng-model="isDisable"  ng-click="setIsDisable()">Disable</button>
-      <button type="button" class="btn btn-danger"  ng-model="isDelete"   ng-click="open()">Delete</button>
+      <button type="submit" class="btn btn-success" ng-model="isEnable"   ng-click="setIsEnable()" ng-disabled="actiongo">Enable</button>
+      <button type="submit" class="btn btn-warning" ng-model="isDisable"  ng-click="setIsDisable()" ng-disabled="actiongo">Disable</button>
+      <button type="button" class="btn btn-danger"  ng-model="isDelete"   ng-click="open()" ng-disabled="actiongo">Delete</button>
     </div>
   </div>
 
   <pagination ng-show="pageStatus" ng-click="changePage()" total-items="total" ng-model="currentPage" max-size="20" items-per-page="pageLength" class="pagination-sm" boundary-links="true" rotate="false"></pagination>
-
+    <img ng-show="loader" src="images/processing.gif" alt="" style="display: block;margin: 0 auto;"/>
   <div class="row" ng-show="status">
     <div class="col-md-6">
       <a href="" ng-click="selectAll()">Select all</a>

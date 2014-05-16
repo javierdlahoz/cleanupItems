@@ -2,7 +2,13 @@
 
 angular.module('myApp')
   .controller('ActionsController', function ($scope, $http, $rootScope , API) {
+
+    $scope.stopbtn = true;
+    $scope.gobtn = false;
+
     $scope.continue = function(){
+        $scope.stopbtn = true;
+        $scope.gobtn = false;
       $scope.stop = false;
       if($rootScope.Params.isSelected){
         selectedAllPost($scope.itemCount);
@@ -158,6 +164,8 @@ angular.module('myApp')
     }
 
     $scope.cancelStop = function(){
+        $scope.stopbtn = false;
+        $scope.gobtn = true;
       $scope.stop = true;
     };
 

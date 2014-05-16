@@ -11,6 +11,7 @@ angular.module('myApp')
   	$scope.catStatus = true;
   	$scope.Selected = new Array();
   	$scope.noSelected = new Array();
+    $scope.loader = false;
 
   	if($rootScope.categories == null)
   	{	$scope.catStatus = false;
@@ -40,9 +41,10 @@ angular.module('myApp')
 	});
 
 	$scope.changePage = function(){
+        $scope.loader = true;
+        $scope.actiongo = true;
 		$rootScope.Params.pageLength = $scope.pageLength;
 		$rootScope.Params.currentPage = $scope.currentPage;
-
 		$http.post(API.base_url + API.filter, $rootScope.Params).success(function(data) {
 			    $scope.products = data[0].products;
 			    $scope.status = true;
@@ -56,6 +58,9 @@ angular.module('myApp')
 			    }
 			    else
 			    	$scope.visible = false;
+
+                $scope.loader = false;
+                $scope.actiongo = false;
 			 }).error(function(data) {
 			  	console.log("Web service error");
 		});
