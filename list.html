@@ -24,8 +24,9 @@
     </div>
   </div>
 
-  <pagination ng-show="pageStatus" ng-click="changePage()" total-items="total" ng-model="currentPage" max-size="20" items-per-page="pageLength" class="pagination-sm" boundary-links="true" rotate="false"></pagination>
+    <pagination ng-show="pageStatus" ng-click="init()" total-items="total" ng-model="Params.currentPage" max-size="20" items-per-page="Params.pageLength" class="pagination-sm" boundary-links="true" rotate="false"></pagination>
     <img ng-show="loader" src="images/processing.gif" alt="" style="display: block;margin: 0 auto;"/>
+
   <div class="row" ng-show="status">
     <div class="col-md-6">
       <a href="" ng-click="selectAll()">Select all</a>
@@ -33,6 +34,12 @@
       <a href="" ng-click="selectNone()">Select none</a>
       |
       (Total products: <span name="count">{{total}}</span>)
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align: right">
+      Products per page:
+      <a href="" ng-click="ten()">10</a>
+      | <a href="" ng-click="fifty()">50</a>
+      | <a href="" ng-click="houndred()">100</a>
     </div>
   </div>
   <table class="table table-striped table-condensed table-hover" ng-show="status" ng-table="table" show-filter="true">

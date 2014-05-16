@@ -69,29 +69,3 @@ if int(count_total) == (int(count_di)+int(count_en)):
 	print "Ok with disabled and enabled quantities"
 else:
 	print "Disabled and enabled quantities don't coincide with excpected results"
-
-$scope.changePage = function(){
-        $scope.loader = true;
-        $scope.actiongo = true;
-		$rootScope.Params.pageLength = $scope.pageLength;
-		$rootScope.Params.currentPage = $scope.currentPage;
-		$http.post(API.base_url + API.filter, $rootScope.Params).success(function(data) {
-			    $scope.products = data[0].products;
-			    $scope.status = true;
-			    $scope.count = data[0].products.length;
-			    $scope.total = data[1].count;
-			    if($scope.total>0){
-			    	$scope.visible = true;
-			    	if($scope.total>$scope.pageLength)
-			    		$scope.pageStatus = true;
-			    	$scope.showSelected();
-			    }
-			    else
-			    	$scope.visible = false;
-
-                $scope.loader = false;
-                $scope.actiongo = false;
-			 }).error(function(data) {
-			  	console.log("Web service error");
-		});
-	}
