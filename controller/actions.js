@@ -5,10 +5,10 @@ angular.module('myApp')
     $scope.continue = function(){
       $scope.stop = false;
       if($rootScope.Params.isSelected){
-        selectedAllPost($scope.itemCount-1);
+        selectedAllPost($scope.itemCount);
       }
       else{
-        noSelectedPost($scope.itemCount-1);
+        noSelectedPost($scope.itemCount);
       }
     }
 

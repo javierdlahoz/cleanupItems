@@ -29,20 +29,25 @@
     $pageLength = $request->{'pageLength'};
     $currentPage = $request->{'currentPage'};
     $isSelected = $request->{'isSelected'};
-    
+    $sortBy = $request->{'sortBy'};
     $responseArray = array();
+
+    if(empty($sortBy))
+      $sortBy = 'id';
 
     if(!empty($category)){
     	$collection = Mage::getModel("catalog/category")->load($category)->getProductCollection()->addAttributeToSelect('id');
       $collection->addAttributeToSelect('name');
       $collection->addAttributeToSelect('status');
       $collection->addAttributeToSelect('product_url');
+      $collection->setOrder($sortBy, 'ASC');
     }
     else{
     	$collection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('id');
       $collection->addAttributeToSelect('name');
       $collection->addAttributeToSelect('status');
       $collection->addAttributeToSelect('product_url');
+      $collection->setOrder($sortBy, 'ASC');
     }
 
     if(!empty($name)){
@@ -135,7 +140,7 @@
     }
     else{
         $products_array = array();        
-        $count  = $collection->getSize();
+        $count  = $collection->getSize();        
         $collection->setPageSize($pageLength)
                    ->setCurPage($currentPage);
 

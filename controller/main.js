@@ -77,7 +77,8 @@ angular.module('myApp')
 			qtyTo: $scope.qtyTo,
 			isSelected: true,
 			pageLength: $scope.pageLength,
-			currentPage: $scope.currentPage
+			currentPage: $scope.currentPage,
+			sortBy: $scope.sortBy
 		};
 		if($scope.validate()){
 			$rootScope.Params = $scope.formData;

@@ -38,12 +38,12 @@
   <table class="table table-striped table-condensed table-hover" ng-show="status" ng-table="table" show-filter="true">
     <tr>
       <th></th>
-      <th>id <a style="cursor: pointer" ng-click="sortBy('id')">&#9660;</a></th>
-      <th>Name <a style="cursor: pointer" ng-click="sortBy('name')">&#9660;</a></th>
-      <th>Sku <a style="cursor: pointer" ng-click="sortBy('sku')">&#9660;</a></th>
-      <th>Enabled <a style="cursor: pointer" ng-click="sortBy('status')">&#9660;</a></th>
+      <th>id</th>
+      <th>Name</th>
+      <th>Sku</th>
+      <th>Enabled</th>
     </tr>
-    <tr ng-repeat="product in products | orderBy:sorting | filter:search">
+    <tr ng-repeat="product in products">
       <td><input type="checkbox" ng-model="product.idSelected" ng-click="selection(product.id)"></td>
       <td>{{product.id}}</td>
       <td><a id="product_link" href="{{product.url}}" target="_new">{{product.name}}</a></td>

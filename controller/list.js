@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp')
-  .controller('ListController', function ($scope, $http, $rootScope, $location, $modal , API) {
+  .controller('ListController', function ($scope, $http, $rootScope, $location, $modal, API) {
   	
   	$scope.sorting = 'id';
   	$scope.visible = true;
@@ -23,7 +23,6 @@ angular.module('myApp')
 		});
   	}
   	$scope.categories = $rootScope.categories;
-
   	$http.post(API.base_url + API.filter, $rootScope.Params).success(function(data) {
 			    $scope.products = data[0].products;
 			    $scope.status = true;
