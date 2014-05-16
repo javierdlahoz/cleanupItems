@@ -13,53 +13,39 @@ angular.module('myApp')
   	$scope.noSelected = new Array();
 
   	if($rootScope.categories == null)
-  	{	$scope.catStatus = false;
-  		$http.get(API.base_url + API.categories).success(function(data) {
-			    $scope.categories = data;
-			    $rootScope.categories = $scope.categories;
-			    $scope.catStatus = true;
-			 }).error(function(data) {
-			  	console.log("Web service error");
-		});
-  	}
-  	$scope.categories = $rootScope.categories;
-  	$http.post(API.base_url + API.filter, $rootScope.Params).success(function(data) {
-			    $scope.products = data[0].products;
-			    $scope.status = true;
-			    $scope.count = data[0].products.length;			   
-			    $scope.total = data[1].count;
-			    if($scope.total>0){
-			    	$scope.visible = true;
-			    	if($scope.total>$scope.pageLength)
-			    		$scope.pageStatus = true;
-			    }
-			    else
-			    	$scope.visible = false;
-			 }).error(function(data) {
-			  	console.log("Web service error");
-	});
+	  	{	$scope.catStatus = false;
+	  		$http.get(API.base_url + API.categories).success(function(data) {
+				    $scope.categories = data;
+				    $rootScope.categories = $scope.categories;
+				    $scope.catStatus = true;
+				 }).error(function(data) {
+				  	console.log("Web service error");
+			});
+	  	}
+	  	$scope.categories = $rootScope.categories;
 
-	$scope.changePage = function(){
-		$rootScope.Params.pageLength = $scope.pageLength;
-		$rootScope.Params.currentPage = $scope.currentPage;
-
-		$http.post(API.base_url + API.filter, $rootScope.Params).success(function(data) {
-			    $scope.products = data[0].products;
-			    $scope.status = true;
-			    $scope.count = data[0].products.length;			   
-			    $scope.total = data[1].count;
-			    if($scope.total>0){
-			    	$scope.visible = true;
-			    	if($scope.total>$scope.pageLength)
-			    		$scope.pageStatus = true;
-			    	$scope.showSelected();
-			    }
-			    else
-			    	$scope.visible = false;
-			 }).error(function(data) {
-			  	console.log("Web service error");
+  	$scope.init = function(){
+	  	$http.post(API.base_url + API.filter, $rootScope.Params).success(function(data) {
+		    $scope.products = data[0].products;
+		    $scope.status = true;
+		    $scope.count = data[0].products.length;			   
+		    $scope.total = data[1].count;
+		    if($scope.total>0){
+		    	$scope.visible = true;
+		    	if($scope.total>$rootScope.Params.pageLength)
+		    		$scope.pageStatus = true;
+		    	else
+		    		$scope.pageStatus = false;
+		    	$scope.showSelected();
+		    }
+		    else
+		    	$scope.visible = false;
+		 }).error(function(data) {
+		  	console.log("Web service error");
 		});
 	}
+
+	$scope.init();
 
 	$scope.selectAll = function() {
 		$rootScope.Params.isSelected = true;
@@ -182,6 +168,24 @@ angular.module('myApp')
 				}
 		}
 		return false;
+	}
+
+	$scope.ten = function(){
+		$rootScope.Params.pageLength = 10;
+		$rootScope.Params.currentPage = 1;
+		$scope.init();
+	}
+
+	$scope.fifty = function(){
+		$rootScope.Params.pageLength = 50;
+		$rootScope.Params.currentPage = 1;
+		$scope.init();
+	}
+
+	$scope.houndred = function(){
+		$rootScope.Params.pageLength = 100;
+		$rootScope.Params.currentPage = 1;
+		$scope.init();
 	}
 
 	//MODAL FUNCTIONS
