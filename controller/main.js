@@ -106,6 +106,25 @@ angular.module('myApp')
 			  ];
 			return false;	
 		}
+		if($scope.qtyTo==0){
+			$scope.alerts = [
+			    { type: 'danger', msg: 'Quantities must be higher than 0, if you want to search product with no stock, please use the "Products with no stock checkbox"' }
+			  ];
+			return false;
+		}
+		if($scope.priceTo==0){
+			$scope.alerts = [
+			    { type: 'danger', msg: 'Prices must be higher than 0' }
+			  ];
+			return false;
+		}
+
+		if((isNaN($scope.qtyTo))||(isNaN($scope.priceTo))||(isNaN($scope.qtyFrom))||(isNaN($scope.priceFrom))){
+			$scope.alerts = [
+			    { type: 'danger', msg: 'Prices and quantities must be numbers' }
+			  ];
+			return false;
+		}
 		return true;
 	}
 

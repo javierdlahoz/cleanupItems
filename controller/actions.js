@@ -4,11 +4,9 @@ angular.module('myApp')
   .controller('ActionsController', function ($scope, $http, $rootScope , API) {
 
     $scope.stopbtn = true;
-    $scope.gobtn = false;
 
     $scope.continue = function(){
         $scope.stopbtn = true;
-        $scope.gobtn = false;
       $scope.stop = false;
       if($rootScope.Params.isSelected){
         selectedAllPost($scope.itemCount);
@@ -17,6 +15,11 @@ angular.module('myApp')
         noSelectedPost($scope.itemCount);
       }
     }
+
+    $scope.cancelStop = function(){
+      $scope.stopbtn = false;
+      $scope.stop = true;
+    };
 
     var isEnable, isDisable, isDelete, moveTo, category, index;
     $scope.ready = false;
@@ -162,11 +165,5 @@ angular.module('myApp')
               console.log("Web service error");
       });
     }
-
-    $scope.cancelStop = function(){
-        $scope.stopbtn = false;
-        $scope.gobtn = true;
-      $scope.stop = true;
-    };
 
   });

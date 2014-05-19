@@ -13,7 +13,7 @@
     Executing {{itemCount}} of {{count}}
     <progressbar animate="true" value="percent" type="primary" class="progress-striped active"><b>{{percent}}%</b></progressbar>
     <button ng-show="stopbtn" type="button" ng-click="cancelStop()" class="btn btn-danger">Cancel</button>
-    <button ng-show="gobtn" type="button" ng-click="continue()" class="btn btn-success">Continue</button>
+    <button ng-hide="stopbtn" type="button" ng-click="continue()" class="btn btn-success">Continue</button>
   </div>
   <div class="alert alert-success" ng-show="finish">
     Done!

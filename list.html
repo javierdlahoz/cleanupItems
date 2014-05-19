@@ -1,3 +1,8 @@
+<div class="alert alert-warning" ng-show="max">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    The amount of products in your search is greater than 250.000, keep in mind that the following actions 
+    will only affect the first 250.000 products
+</div>
 <h4>List of filtered products</h4>
 <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
 <div ng-hide="status">
@@ -21,6 +26,15 @@
       <button type="submit" class="btn btn-success" ng-model="isEnable"   ng-click="setIsEnable()" ng-disabled="actiongo">Enable</button>
       <button type="submit" class="btn btn-warning" ng-model="isDisable"  ng-click="setIsDisable()" ng-disabled="actiongo">Disable</button>
       <button type="button" class="btn btn-danger"  ng-model="isDelete"   ng-click="open()" ng-disabled="actiongo">Delete</button>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align: right">
+    Order by:
+      <select name="sort" id="sort" class="form-inline" ng-model="Params.sortBy" ng-change="init()">
+        <option value="id">id</option>
+        <option value="name">name</option>
+        <option value="sku">sku</option>
+        <option value="status">status</option>
+      </select>
     </div>
   </div>
 

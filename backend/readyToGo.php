@@ -130,6 +130,8 @@
       array_push($responseArray, array("count" => $count));
   }
   else{
+      $collection->setCurPage(1) 
+                 ->setPageSize(250000);
       $products_array = array();        
       foreach ($collection as $product) {
             $url = $product->getProductUrl();

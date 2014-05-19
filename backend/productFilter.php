@@ -5,6 +5,7 @@
     ini_set('display_startup_errors', 1);
     ini_set('log_errors', 1);
     ini_set("error_reporting",E_ALL & ~E_NOTICE & ~E_WARNING);
+    ini_set('memory_limit', '2048M');
     include_once dirname(__FILE__) . '../../../app/Mage.php';
     Mage::app('admin');
     umask(0);
@@ -15,7 +16,7 @@
     $from = substr($request->{'from'},0,10);
     $to = substr($request->{'to'},0,10);
     $filter = $request->{'filter'};
-    $noStocks = $request->{'noStock'};
+    $noStock = $request->{'noStock'};
     $noPicture = $request->{'noPicture'};
     $priceFrom = $request->{'priceFrom'}; 
     $priceTo = $request->{'priceTo'};
@@ -81,12 +82,12 @@
                   '{{table}}.stock_id=1',
                   'left'
                   )
-            ->addAttributeToFilter('qty', array('lt' => 1));
+            ->addAttributeToFilter('qty', 0);
     }
 
     if($priceTo!=0){
-      $collection->addAttributeToFilter('price', array('gt' => $priceFrom))
-                   ->addAttributeToFilter('price', array('lt' => $priceTo));
+      $collection->addAttributeToFilter('price', array('gteq' => $priceFrom))
+                   ->addAttributeToFilter('price', array('lteq' => $priceTo));
     }
 
     if($qtyTo!=0){
@@ -98,8 +99,8 @@
                   '{{table}}.stock_id=1',
                   'left'
                   );
-      $collection->addAttributeToFilter('qty', array('gt' => $qtyFrom))
-                   ->addAttributeToFilter('qty', array('lt' => $qtyTo));
+      $collection->addAttributeToFilter('qty', array('gteq' => $qtyFrom))
+                   ->addAttributeToFilter('qty', array('lteq' => $qtyTo));
     }
 
     if($enabledProducts){

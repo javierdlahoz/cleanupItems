@@ -12,6 +12,7 @@ angular.module('myApp')
         $scope.Selected = new Array();
         $scope.noSelected = new Array();
         $scope.loader = false;
+        $scope.max = false;
 
         if($rootScope.categories == null)
         {	$scope.catStatus = false;
@@ -33,6 +34,8 @@ angular.module('myApp')
                 $scope.status = true;
                 $scope.count = data[0].products.length;
                 $scope.total = data[1].count;
+                if($scope.total>250000)
+                	$scope.max = true;
                 if($scope.total>0){
                     $scope.visible = true;
                     if($scope.total>$rootScope.Params.pageLength)
