@@ -4,6 +4,7 @@ angular.module('myApp')
     .controller('ListController', function ($scope, $http, $rootScope, $location, $modal, API) {
 
         $scope.sorting = 'id';
+        $scope.typeSort = 'DESC';
         $scope.visible = true;
         $scope.pageLength = 50;
         $scope.currentPage = 1;
@@ -141,6 +142,55 @@ angular.module('myApp')
             }
 
         };
+
+        $scope.idDesc = function(){
+            $rootScope.Params.sortBy = 'entity_id';
+            $rootScope.Params.sortType = 'DESC';
+            $scope.init();
+        };
+
+        $scope.idAsc = function(){
+            $rootScope.Params.sortBy = 'entity_id';
+            $rootScope.Params.sortType = 'ASC';
+            $scope.init();
+        };
+
+        $scope.nameDesc = function(){
+            $rootScope.Params.sortBy = 'name';
+            $rootScope.Params.sortType = 'DESC';
+            $scope.init();
+        };
+
+        $scope.nameAsc = function(){
+            $rootScope.Params.sortBy = 'name';
+            $rootScope.Params.sortType = 'ASC';
+            $scope.init();
+        };
+
+        $scope.skuDesc = function(){
+            $rootScope.Params.sortBy = 'sku';
+            $rootScope.Params.sortType = 'DESC';
+            $scope.init();
+        };
+
+        $scope.skuAsc = function(){
+            $rootScope.Params.sortBy = 'sku';
+            $rootScope.Params.sortType = 'ASC';
+            $scope.init();
+        };
+
+        $scope.statusDesc = function(){
+            $rootScope.Params.sortBy = 'status';
+            $rootScope.Params.sortType = 'DESC';
+            $scope.init();
+        };
+
+        $scope.statusAsc = function(){
+            $rootScope.Params.sortBy = 'status';
+            $rootScope.Params.sortType = 'ASC';
+            $scope.init();
+        };
+
         $scope.closeAlert = function(index) {
             $scope.alerts.splice(index, 1);
         };
@@ -159,10 +209,6 @@ angular.module('myApp')
 
         $scope.moveToCategory = function(){
             $scope.moveTo = "true";
-        }
-
-        $scope.sortBy = function(tSorting){
-            $scope.sorting = tSorting;
         }
 
         $scope.validate = function(){

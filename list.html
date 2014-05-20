@@ -27,15 +27,6 @@
       <button type="submit" class="btn btn-warning" ng-model="isDisable"  ng-click="setIsDisable()" ng-disabled="actiongo">Disable</button>
       <button type="button" class="btn btn-danger"  ng-model="isDelete"   ng-click="open()" ng-disabled="actiongo">Delete</button>
     </div>
-    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="text-align: right">
-    Order by:
-      <select name="sort" id="sort" class="form-inline" ng-model="Params.sortBy" ng-change="init()">
-        <option value="id">id</option>
-        <option value="name">name</option>
-        <option value="sku">sku</option>
-        <option value="status">status</option>
-      </select>
-    </div>
   </div>
 
     <pagination ng-show="pageStatus" ng-click="init()" total-items="total" ng-model="Params.currentPage" max-size="20" items-per-page="Params.pageLength" class="pagination-sm" boundary-links="true" rotate="false"></pagination>
@@ -59,10 +50,22 @@
   <table class="table table-striped table-condensed table-hover" ng-show="status" ng-table="table" show-filter="true">
     <tr>
       <th></th>
-      <th>id</th>
-      <th>Name</th>
-      <th>Sku</th>
-      <th>Enabled</th>
+      <th> 
+      id
+      <a href="" ng-click="idAsc()">&#x25B2;</a><a href="" ng-click="idDesc()">&#x25BC;</a>
+      </th>
+      <th>
+      Name
+      <a href="" ng-click="nameAsc()">&#x25B2;</a><a href="" ng-click="nameDesc()">&#x25BC;</a>
+      </th>
+      <th>
+      Sku
+      <a href="" ng-click="skuAsc()">&#x25B2;</a><a href="" ng-click="skuDesc()">&#x25BC;</a>
+      </th>
+      <th>
+      Enabled
+      <a href="" ng-click="statusAsc()">&#x25B2;</a><a href="" ng-click="statusDesc()">&#x25BC;</a>
+      </th>
     </tr>
     <tr ng-repeat="product in products">
       <td><input type="checkbox" ng-model="product.idSelected" ng-click="selection(product.id)"></td>

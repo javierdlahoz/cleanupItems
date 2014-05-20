@@ -31,24 +31,27 @@
     $currentPage = $request->{'currentPage'};
     $isSelected = $request->{'isSelected'};
     $sortBy = $request->{'sortBy'};
+    $sortType = $request->{'sortType'};
     $responseArray = array();
 
     if(empty($sortBy))
-      $sortBy = 'id';
+      { $sortBy = 'id';
+        $sortType = 'ASC';
+      }
 
     if(!empty($category)){
     	$collection = Mage::getModel("catalog/category")->load($category)->getProductCollection()->addAttributeToSelect('id');
       $collection->addAttributeToSelect('name');
       $collection->addAttributeToSelect('status');
       $collection->addAttributeToSelect('product_url');
-      $collection->setOrder($sortBy, 'ASC');
+      $collection->setOrder($sortBy, $sortType);
     }
     else{
     	$collection = Mage::getModel('catalog/product')->getCollection()->addAttributeToSelect('id');
       $collection->addAttributeToSelect('name');
       $collection->addAttributeToSelect('status');
       $collection->addAttributeToSelect('product_url');
-      $collection->setOrder($sortBy, 'ASC');
+      $collection->setOrder($sortBy, $sortType);
     }
 
     if(!empty($name)){

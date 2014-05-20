@@ -6,6 +6,7 @@ angular.module('myApp')
   	$scope.currentPage = 1;
   	$scope.catStatus = false;
   	$rootScope.mainTitle = null;
+  	$scope.onlyNumbers = /^[0-9]+$/;
   	
   	$http.get(API.base_url + API.ready).success(function(data) {});
 
@@ -119,12 +120,7 @@ angular.module('myApp')
 			return false;
 		}
 
-		if((isNaN($scope.qtyTo))||(isNaN($scope.priceTo))||(isNaN($scope.qtyFrom))||(isNaN($scope.priceFrom))){
-			$scope.alerts = [
-			    { type: 'danger', msg: 'Prices and quantities must be numbers' }
-			  ];
-			return false;
-		}
+
 		return true;
 	}
 
