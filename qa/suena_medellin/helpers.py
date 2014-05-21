@@ -1,10 +1,5 @@
 from selenium import webdriver
-import helpers
-import random
 import time
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
 
 def create_user(driver, first_name, last_name, email, password):
     driver.get("http://aquisuenamedellin.com/auth/login")
