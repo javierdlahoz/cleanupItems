@@ -2,7 +2,7 @@
 
 angular.module('myApp')
     .controller('ListController', function ($scope, $http, $rootScope, $location, $modal, API) {
-
+        console.log(API);
         $scope.sorting = 'id';
         $scope.typeSort = 'DESC';
         $scope.visible = true;
@@ -31,6 +31,7 @@ angular.module('myApp')
             $scope.loader = true;
             $scope.actiongo = true;
             $http.post(API.base_url + API.filter, $rootScope.Params).success(function(data) {
+
                 $scope.products = data[0].products;
                 $scope.status = true;
                 $scope.count = data[0].products.length;

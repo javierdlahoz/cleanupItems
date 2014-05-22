@@ -2,6 +2,7 @@
 
 angular.module('myApp')
   .controller('MainController', function ($scope, $http , $rootScope, $location , API) {
+        console.log(API);
   	$scope.pageLength = 50;
   	$scope.currentPage = 1;
   	$scope.catStatus = false;
