@@ -2,8 +2,11 @@
 
 angular.module('myApp')
     .controller('ListController', function ($scope, $http, $rootScope, $location, $modal, API) {
-        console.log(API);
-        $scope.sorting = 'id';
+        if(API.getAv()){
+            $location.path("/");
+        }
+        else{
+            $scope.sorting = 'id';
         $scope.typeSort = 'DESC';
         $scope.visible = true;
         $scope.pageLength = 50;
@@ -253,6 +256,7 @@ angular.module('myApp')
                 size: size
             });
         };
+        }
     });
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.

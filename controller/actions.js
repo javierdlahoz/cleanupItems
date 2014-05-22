@@ -1,9 +1,12 @@
-'use strict';
+
 
 angular.module('myApp')
-  .controller('ActionsController', function ($scope, $http, $rootScope , API) {
-
-    $scope.stopbtn = true;
+  .controller('ActionsController', function ($scope, $http, $rootScope ,$location, API) {
+    if(API.getAv()){
+       $location.path("/");
+    }
+    else{
+        $scope.stopbtn = true;
 
     $scope.continue = function(){
         $scope.stopbtn = true;
@@ -169,5 +172,7 @@ angular.module('myApp')
               console.log("Web service error");
       });
     }
+    }
+
 
   });

@@ -2,7 +2,7 @@
 
 angular.module('myApp')
     .factory('API', function () {
-        var avilable = false;
+        var avilable = true;
         return {
             base_url: 'http://172.16.1.27/otteny.com/cleanup/backend/',
             auth: 'users.php',
@@ -11,6 +11,12 @@ angular.module('myApp')
             ready_clean:'readyToGo.php',
             actions:'actions.php',
             categories: 'categories.php',
-            filter:'productFilter.php'
+            filter:'productFilter.php',
+            getAv: function(){
+                return avilable;
+            },
+            setAv:function(setvar){
+                avilable = setvar;
+            }
         };
     });
