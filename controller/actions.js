@@ -24,7 +24,7 @@ angular.module('myApp')
     var isEnable, isDisable, isDelete, moveTo, category, index;
     $scope.ready = false;
 
-    var formData = $rootScope.Params;     
+    var formData = $rootScope.Params;
     $scope.count = 0;
     $scope.itemCount = 0;
     $scope.finish = false;
@@ -78,7 +78,7 @@ angular.module('myApp')
         $scope.ready = data.ready;
         $scope.pAction = $scope.getItems(data.products);
         $scope.count = $scope.pAction.length;
-        if($scope.ready){ 
+        if($scope.ready){
           selectedAllPost(i);
         }
     	 }).error(function(data) {
@@ -93,25 +93,29 @@ angular.module('myApp')
     }
 
     function selectedAllPost(i){
+      if($scope.stop)
+        return true;
+
+      $scope.enContinue = true;
       formData.productId = $scope.pAction[i].id;
       formData.index = i;
+
       $http.post(API.base_url + API.actions, formData).success(function(response) {
           if($scope.itemCount<50)
             $scope.products[$scope.itemCount] = $scope.pAction[i];
           $scope.percent = Math.round(($scope.itemCount/($scope.count-1))*100);
           $scope.itemCount++;
-          
+
           if($scope.itemCount==$scope.pAction.length)
             $scope.finish = true;
 
           $rootScope.mainTitle = $scope.percent+"%";
           i++;
 
-          if($scope.stop)
-            return true;
+          $scope.enContinue = false;
 
           if(i<$scope.pAction.length)
-            selectedAllPost(i);              
+            selectedAllPost(i);
       });
     }
 
@@ -126,7 +130,7 @@ angular.module('myApp')
           };
         $scope.percent = Math.round(($scope.itemCount/($scope.count-1))*100);
         $scope.itemCount++;
-        $rootScope.mainTitle = $scope.percent+"%";    
+        $rootScope.mainTitle = $scope.percent+"%";
         i++;
 
         if($scope.itemCount==$scope.pAction.length)
@@ -137,7 +141,7 @@ angular.module('myApp')
 
 
         if(i<$scope.pAction.length)
-          noSelectedPost(i);        
+          noSelectedPost(i);
         });
     }
 
@@ -159,7 +163,7 @@ angular.module('myApp')
           if(data.status)
             {
                 $scope.alertas = [
-          { type: 'success', msg: 'Indexes were successfully changed to Manual update' }];          
+          { type: 'success', msg: 'Indexes were successfully changed to Manual update' }];
       }
            }).error(function(data) {
               console.log("Web service error");

@@ -1,4 +1,5 @@
 from selenium import webdriver
+import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
 from selenium.webdriver.support import expected_conditions as EC # available since 2.26.0
@@ -25,3 +26,35 @@ def restartDriver(driver):
 	driver = webdriver.Firefox()
 	driver.get(url)
 	return driver
+
+def search_all(driver):
+	driver.get(url)
+	time.sleep(2)
+	driver.find_element_by_xpath("//button[@class='btn btn-primary']").click()
+	time.sleep(3)
+
+def enable_all(driver):
+	search_all(driver)
+	driver.find_element_by_xpath("//button[@class='btn btn-success ng-pristine ng-valid']").click()
+	time.sleep(3)
+
+def disable_all(driver):
+	search_all(driver)
+	driver.find_element_by_xpath("//button[@class='btn btn-warning ng-pristine ng-valid']").click()
+	time.sleep(3)
+
+def select_all(driver):
+	driver.find_element_by_xpath("//a[@ng-click='selectNone()']").click()
+	ctrl = False
+	while ctrl == False:
+	    for i in range(50):
+	        try:
+	            driver.find_element_by_xpath("//input[@name='"+str(i)+"']").click()
+	        except:
+	            ctrl = True
+	            break
+	    try:
+	        driver.find_element_by_xpath("//a[@ng-click='selectPage(page + 1)']").click()
+	        time.sleep(2)
+	    except:
+	        ctrl = True
