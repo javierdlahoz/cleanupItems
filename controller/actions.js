@@ -2,10 +2,6 @@
 
 angular.module('myApp')
   .controller('ActionsController', function ($scope, $http, $rootScope ,$location, API) {
-    if(API.getAv()){
-       $location.path("/");
-    }
-    else{
         $scope.stopbtn = true;
 
     $scope.continue = function(){
@@ -171,7 +167,6 @@ angular.module('myApp')
            }).error(function(data) {
               console.log("Web service error");
       });
-    }
     }
 
 

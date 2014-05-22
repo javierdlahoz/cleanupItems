@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
 from selenium.webdriver.support import expected_conditions as EC # available since 2.26.0
 
-url = "http://172.16.1.27/otteny.com/cleanup/index.html"
+url = "http://localhost/otteny.com/cleanup/index.html"
 
 def restartDriver(driver):
 	driver.quit()
@@ -44,6 +44,28 @@ def select_all(driver):
 	        time.sleep(2)
 	    except:
 	        ctrl = True
+
+def random_select(driver):
+	driver.find_element_by_xpath("//a[@ng-click='selectNone()']").click()
+	ctrl = False
+	tot = 0
+	while ctrl == False:
+	    for i in range(50):
+	        try:
+	        	state = randint(0,1)
+	        	if state == 1:
+	        		tot += 1
+	        		driver.find_element_by_xpath("//input[@name='"+str(i)+"']").click()
+	        except:
+	            ctrl = True
+	            print str(tot-1)
+	            break
+	    try:
+	        driver.find_element_by_xpath("//a[@ng-click='selectPage(page + 1)']").click()
+	        time.sleep(2)
+	    except:
+	        ctrl = True
+	        print str(tot-1)
 
 def select_none(driver):
     driver.find_element_by_xpath("//a[@ng-click='selectAll()']").click()

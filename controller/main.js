@@ -61,7 +61,6 @@ angular.module('myApp')
 	  $scope.format = $scope.formats[0];
 
 	$scope.search = function(form){
-        API.setAv(false);
 		$scope.formData = {
 			filter: $scope.filter,
 			from: $scope.from,
