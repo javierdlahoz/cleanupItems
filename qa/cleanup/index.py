@@ -1,4 +1,3 @@
-import Tkinter
 from selenium import webdriver
 from directive import *
 
