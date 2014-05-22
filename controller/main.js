@@ -7,7 +7,7 @@ angular.module('myApp')
   	$scope.catStatus = false;
   	$rootScope.mainTitle = null;
   	$scope.onlyNumbers = /^[0-9]+$/;
-  	
+
   	$http.get(API.base_url + API.ready).success(function(data) {});
 
   	if($rootScope.categories == null){
@@ -100,13 +100,13 @@ angular.module('myApp')
 			$scope.alerts = [
 			    { type: 'danger', msg: 'Please check your dates' }
 			  ];
-			return false;	
+			return false;
 		}
 		if($scope.qtyFrom>$scope.qtyTo){
 			$scope.alerts = [
 			    { type: 'danger', msg: 'Please check your quantities' }
 			  ];
-			return false;	
+			return false;
 		}
 		if($scope.qtyTo==0){
 			$scope.alerts = [
@@ -123,6 +123,11 @@ angular.module('myApp')
 
 
 		return true;
+	}
+
+	$scope.qtyNull = function(){
+		$scope.qtyFrom = null;
+		$scope.qtyTo = null;
 	}
 
 	$scope.closeAlert = function(index) {

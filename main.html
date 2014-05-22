@@ -40,11 +40,11 @@
   <div class="row">
         <div class="col-md-6">
             <label for="priceFrom">From: </label>
-            <input type="number" ng-model="priceFrom" class="form-control" placeholder="0" name="fromP">
+            <input type="number" ng-model="priceFrom" class="form-control" placeholder="0" id="fromP">
         </div>
         <div class="col-md-6">
             <label for="priceTo">To: </label>
-            <input type="number" ng-model="priceTo" class="form-control" placeholder="0" name="toP">
+            <input type="number" ng-model="priceTo" class="form-control" placeholder="0" id="toP">
         </div>
     </div>
   <hr>
@@ -52,11 +52,11 @@
   <div class="row">
     <div class="col-md-6">
         <label for="qtyFrom">From: </label>
-        <input type="number" ng-model="qtyFrom" class="form-control" placeholder="0" name="fromQ">
+        <input type="number" ng-model="qtyFrom" class="form-control" placeholder="0" id="fromQ">
     </div>
     <div class="col-md-6">
         <label for="atyTo">To: </label>
-        <input type="number" ng-model="qtyTo" class="form-control" placeholder="0" name="toQ">
+        <input type="number" ng-model="qtyTo" class="form-control" placeholder="0" id="toQ">
     </div>
   </div>
   <hr>
@@ -75,7 +75,7 @@
       <div ng-show="catStatus">
           <label for="category">Category: </label>
           <select ng-model="category" class="form-control" name="categoryIn">
-            <option ng-repeat="category in categories" value="{{category.id}}">{{category.name}} (id:{{category.id}})</option>
+            <option ng-repeat="category in categories" value="{{category.id}}" index="{{$index}}">{{category.name}} (id:{{category.id}})</option>
           </select>
       </div>
      <div class="alert alert-warning" ng-hide="catStatus">
@@ -92,7 +92,7 @@
         <div class="col-md-3">
           <div class="checkbox">
           <label>
-            <input type="checkbox" value="true" ng-model="noStock" name="chNStock">
+            <input type="checkbox" value="true" ng-model="noStock" name="chNStock" ng-click="qtyNull()">
             Products with no stocks
             </label>
           </div>
