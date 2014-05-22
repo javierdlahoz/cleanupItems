@@ -1,20 +1,40 @@
 from selenium import webdriver
-import time
 from helpers import *
+import string
+import random
 
 driver = webdriver.Firefox()
 
-first_name = 'Javier'
-last_name = 'Enrique'
-email = 'ajshdvajdahvdva@gmail.com'
-password = 'javier123'
+first_name = '|@#'
+last_name = '@#@|'
+email = '3432-12@gmail.com'
+password = 'k'
 
-create_user(driver, first_name, last_name, email, password)
-time.sleep(2)
-button = driver.find_element_by_xpath("//a[@href='/music/playlist/create']").text
+Nfirst_name = "@#@|"
+Nlast_name = "@#@|"
+birth_date = "890-05-05"
+Nemail = '3432-12@gmail.com'
+new_password = "j"
 
-if button == "Crear nueva lista":
-    print "OK"
-else:
-    print "There's an error"
+phone = "123456"
+address = "Near"
+city = "M"
+
+#create_user(driver, first_name, last_name, email, password)
+loggin(driver, email, password)
+edit_user(driver, Nfirst_name, Nlast_name, birth_date)
+#change_email(driver, Nemail)
+#change_password(driver, password, new_password)
+#change_contact(driver, phone, address, city)
 driver.quit()
+exit()
+
+'''SEARCHING
+driver.get("http://aquisuenamedellin.com")
+for j in range(100):
+    leng = random.randint(1,11)
+    search_str = ''
+    for i in range(leng):
+        search_str += random.choice(string.lowercase)
+    search(driver, search_str)
+'''
