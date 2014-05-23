@@ -107,10 +107,15 @@ angular.module('myApp')
           if($scope.itemCount<50)
             $scope.products[$scope.itemCount] = $scope.pAction[i];
           $scope.percent = Math.round(($scope.itemCount/($scope.count-1))*100);
+
           $scope.itemCount++;
 
           if($scope.itemCount==$scope.pAction.length)
             $scope.finish = true;
+
+          if(isNaN($scope.percent)){
+              $scope.percent = 100
+          }
 
           $rootScope.mainTitle = $scope.percent+"%";
           i++;
@@ -133,6 +138,9 @@ angular.module('myApp')
           };
         $scope.percent = Math.round(($scope.itemCount/($scope.count-1))*100);
         $scope.itemCount++;
+          if(isNaN($scope.percent)){
+              $scope.percent = 100;
+          }
         $rootScope.mainTitle = $scope.percent+"%";
         i++;
 
