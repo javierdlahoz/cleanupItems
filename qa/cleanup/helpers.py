@@ -230,3 +230,11 @@ def all_categories(driver):
 		print categories_no_products
 	else:
 		print "Not OK with categories"
+
+def multiple_check(driver):
+	driver.find_element_by_xpath("//a[@ng-click='selectNone()']").click()
+	ctrl = False
+	tot = 0
+	while ctrl == False:
+	    for i in range(31):
+	        driver.find_element_by_xpath("//input[@name='"+str(11)+"']").click()
