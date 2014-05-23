@@ -61,6 +61,7 @@ angular.module('myApp')
 	  $scope.format = $scope.formats[0];
 
 	$scope.search = function(form){
+        globalaccess = true;
 		$scope.formData = {
 			filter: $scope.filter,
 			from: $scope.from,

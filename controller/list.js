@@ -2,6 +2,10 @@
 
 angular.module('myApp')
     .controller('ListController', function ($scope, $http, $rootScope, $location, $modal, API) {
+        if(!globalaccess){
+            $location.path('/');
+            return
+        }
             $scope.sorting = 'id';
         $scope.typeSort = 'DESC';
         $scope.visible = true;

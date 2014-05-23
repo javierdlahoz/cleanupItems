@@ -13,11 +13,13 @@ var myApp = angular.module('myApp', [
         })
       .when('/list', {
             templateUrl: 'list.html',
-            controller: 'ListController'
+            controller: 'ListController',
+            globalaccess: true
         })
       .when('/actions', {
             templateUrl: 'actions.html',
-            controller: 'ActionsController'
+            controller: 'ActionsController',
+            globalaccess: true
         })
       .otherwise({
         redirectTo: '/'

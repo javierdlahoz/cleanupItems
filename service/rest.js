@@ -4,7 +4,7 @@ angular.module('myApp')
     .factory('API', function () {
         var avilable = true;
         return {
-            base_url: 'backend/',
+            base_url: 'http://172.16.1.27/otteny.com/cleanup/backend/',
             auth: 'users.php',
             index: 'indexes.php',
             ready:'readyToGo.php?action=new',

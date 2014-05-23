@@ -2,6 +2,10 @@
 
 angular.module('myApp')
   .controller('ActionsController', function ($scope, $http, $rootScope ,$location, API) {
+        if(!globalaccess){
+            $location.path('/');
+            return
+        }
         $scope.stopbtn = true;
 
     $scope.continue = function(){
