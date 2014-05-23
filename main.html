@@ -19,7 +19,7 @@
         <div class="col-md-6">
             <label for="from">From: </label>
             <p class="input-group">
-                <input type="text" name="from" class="form-control" datepicker-popup="{{format}}" is-open="opened1" min-date="'2000-01-01'" max-date="todayday" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-model="from"/>
+                <input type="text" disabled="disabled" name="from" class="form-control" datepicker-popup="{{format}}" is-open="opened1" min-date="'2000-01-01'" max-date="todayday" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-model="from"/>
                 <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open($event, 'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
@@ -28,7 +28,7 @@
         <div class="col-md-6" ng-show="filter">
             <label for="to">To: </label>
             <p class="input-group">
-                <input type="text" name="to" class="form-control" datepicker-popup="{{format}}" is-open="opened2" min-date="'2000-01-01'" max-date="todayday" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-model="to" ng-click="open($event, 'opened2')"/>
+                <input type="text" name="to" disabled="disabled" class="form-control" datepicker-popup="{{format}}" is-open="opened2" min-date="'2000-01-01'" max-date="todayday" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-model="to" ng-click="open($event, 'opened2')"/>
                 <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open($event, 'opened2')"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
